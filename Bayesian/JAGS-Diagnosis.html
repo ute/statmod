@@ -447,8 +447,8 @@ Initializing model</code></pre>
 Fraction in 1st window = 0.1
 Fraction in 2nd window = 0.5 
 
-    mu 
--0.222 </code></pre>
+     mu 
+0.06536 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gelman.diag</span>(samples1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -460,7 +460,7 @@ mu          1          1</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effectiveSize</span>(samples1[[<span class="dv">1</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      mu 
-2086.459 </code></pre>
+1992.169 </code></pre>
 </div>
 </div>
 <p>🤔 What do all these functions calculate? Do the results mean that there is good convergence and mixing?</p>
@@ -524,25 +524,25 @@ Initializing model</code></pre>
 Fraction in 1st window = 0.1
 Fraction in 2nd window = 0.5 
 
- mu[1]  mu[2] 
- 1.090 -1.083 </code></pre>
+  mu[1]   mu[2] 
+ 0.1168 -0.1192 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gelman.diag</span>(samples2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Potential scale reduction factors:
 
       Point est. Upper C.I.
-mu[1]       1.33       2.21
-mu[2]       1.33       2.21
+mu[1]       1.09       1.28
+mu[2]       1.09       1.29
 
 Multivariate psrf
 
-1.27</code></pre>
+1.09</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effectiveSize</span>(samples2[[<span class="dv">1</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   mu[1]    mu[2] 
-8.781721 8.834388 </code></pre>
+8.747281 8.930360 </code></pre>
 </div>
 </div>
 

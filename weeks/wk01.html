@@ -364,8 +364,8 @@ window.Quarto = {
 Exercise classes start in course week 2. Problems for the relevant exercise class will be published a week before, on Tuesdays.
 -->
 <p>Remember: exercise classes (TØ) start in course week 2. Please try to solve at least some of the problems before you come to the TØ 😊🧐.</p>
-<div id="relative-likelihood-in-the-binomial-model" class="Exercise" title="relative likelihood in the binomial model">
-<details class="Exercise fbx-default closebutton"><summary><strong>Problem 1.1: </strong>relative likelihood in the binomial model</summary><div>
+<div id="relative-likelihood-in-the-binomial-model" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 1.1: </strong>relative likelihood in the binomial model</summary><div>
 <p>We have seen that relative likelihood can be used to judge how well a model with a given parameter is supported by the data, see (4.11) in Davison (p.&nbsp;100). In this exercise, you compare this measure of goodness of fit with good old p-values in a simple situation.</p>
 <p>Consider the binomial model with size parameter <span class="math inline">\(n=20\)</span>, and probability parameter <span class="math inline">\(\theta\in (0,1)\)</span>. We have observed data consisting of one realization, <span class="math inline">\(y=4\)</span>.</p>
 <ol type="a">
@@ -376,8 +376,9 @@ Exercise classes start in course week 2. Problems for the relevant exercise clas
 </ol>
 </div></details>
 </div>
-<div id="observed-and-expected-information-gamma-distribution" class="Exercise" title="observed and expected information: gamma distribution">
-<p></p><details class="Exercise fbx-default closebutton"><summary><strong>Problem 1.2: </strong>observed and expected information: gamma distribution</summary><div><strong>Davison, Exercise 4.3.1</strong><p></p>
+<div id="observed-and-expected-information-gamma-distribution" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 1.2: </strong>observed and expected information: gamma distribution</summary><div>
+<p><strong>Davison, Exercise 4.3.1</strong></p>
 <p>The gamma distribution with scale parameter <span class="math inline">\(\lambda\)</span> and shape parameter <span class="math inline">\(\kappa\)</span> has probability density function (see eq. (2.7) in Davison, p.&nbsp;23)</p>
 <p><span class="math display">\[
 f(y; \lambda, \kappa) = \frac{\lambda^\kappa y^{\kappa-1}}{\Gamma(\kappa)}\exp(-\lambda y),\quad y&gt;0,\ \ \lambda,\kappa&gt;0.
@@ -397,24 +398,27 @@ J(\lambda,\kappa)= n\begin{pmatrix}
 \]</span></p>
 </div></details>
 </div>
-<div id="fisher-information-and-relative-efficiency-geometric-distribution" class="Exercise" title="Fisher information and relative efficiency: geometric distribution">
-<p></p><details class="Exercise fbx-default closebutton"><summary><strong>Problem 1.3: </strong>Fisher information and relative efficiency: geometric distribution</summary><div><strong>Davison, Exercise 4.3.5</strong><p></p>
+<div id="fisher-information-and-relative-efficiency-geometric-distribution" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 1.3: </strong>Fisher information and relative efficiency: geometric distribution</summary><div>
+<p><strong>Davison, Exercise 4.3.5</strong></p>
 <p>Find the expected information for <span class="math inline">\(\theta\)</span> based on a random sample <span class="math inline">\(Y_1,\dots, Y_n\)</span> from the geometric density</p>
 <p><span class="math display">\[
   f(y;\theta)=\theta(1-\theta)^{y-1},\quad y=1,2,3,\dots, \ \ 0&lt;\theta&lt;1.
 \]</span> 🤔 A statistician has a choice between observing random samples from the Bernoulli or geometric densities with the same <span class="math inline">\(\theta\)</span>. Which will give the more precise inference on <span class="math inline">\(\theta\)</span>?<br></p>
 </div></details>
 </div>
-<div id="using-the-theory-in-a-practical-example" class="Exercise" title="using the theory in a practical example">
-<p></p><details class="Exercise fbx-default closebutton"><summary><strong>Problem 1.4: </strong>using the theory in a practical example</summary><div>Davison, R practical 4.2. (find the practicals on BrightSpace under General Information <span class="math inline">\(\to\)</span> Textbooks)<p></p>
+<div id="using-the-theory-in-a-practical-example" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 1.4: </strong>using the theory in a practical example</summary><div>
+<p>Davison, R practical 4.2. (find the practicals on BrightSpace under General Information <span class="math inline">\(\to\)</span> Textbooks)</p>
 <!-- ::::{.Hint}   -->
 <p>To get the data into R, install package <code>SMPracticals</code>. The code given in the practical then runs out of the box if you replace <code>data(births)</code> by <code>attach(SMPracticals::births)</code>. Just to practice good habits, remember to clean up the environment by <code>detach(SMPracticals::births)</code> when you are done with the calculations.</p>
 <p>In the code provided you will see that they make use of the Hessian matrix coming with the optimization by function <code>nlm</code>.</p>
 <p>If you never came across the notion of a Hessian matrix, read about it e.g.&nbsp;on <a href="https://en.wikipedia.org/wiki/Hessian_matrix">Wikipedia</a> - it is just a matrix of second derivatives, but here it is very useful. <!-- ::::     --></p>
 </div></details>
 </div>
-<div id="information-in-a-model-for-survival-times" class="Exercise" title="information in a model for survival times">
-<p></p><details class="Exercise fbx-default closebutton"><summary><strong>Problem 1.5: </strong>information in a model for survival times</summary><div><span class="smallgray">Davison, 4.9: Problem 6</span><p></p>
+<div id="information-in-a-model-for-survival-times" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 1.5: </strong>information in a model for survival times</summary><div>
+<p><span class="smallgray">Davison, 4.9: Problem 6</span></p>
 <p>Persons who catch an infectious disease either die almost at once during its initial phase, or live an exponential time; denote the survival time <span class="math inline">\(Y\)</span> and declare that <span class="math inline">\(Y = 0\)</span> if death occurs in the initial phase. Explain why the likelihood can be written as a product of terms of form</p>
 <p><span class="math display">\[
 (1-p)^{1-I} \times \{p/\theta\,\exp(-Y/\theta)\}^I,\quad 0&lt;p&lt;1,\ \ \theta&gt;0,

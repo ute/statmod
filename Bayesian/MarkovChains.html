@@ -77,13 +77,13 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style> .MathJax {font-size: 103% !important;} </style>
 <style>
-.Exercise {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
 .Hint {
   --color1: #93bf89;
   --color2: #7c9f75;
+}
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
 }
 </style>
 
@@ -365,6 +365,9 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="markov-chains-in-discrete-time-with-finite-or-countable-state-space">Markov chains in discrete time with finite or countable state space</h2>
 <div class="hidden">
 
+</div>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
 </div>
 <p>In the introductory probability course (“ISS”), you learned about Markov chains <span class="math inline">\(X_1, X_2, \dots\)</span> with a finite or countable state space, that is, the <span class="math inline">\(X_i\)</span> take only values from a finite or countable set <span class="math inline">\(S\)</span> of outcomes. Markov chains have the <strong><em>Markov property</em></strong> that says that the conditional probability of <span class="math inline">\(X_{n+1}\)</span> taking a value <span class="math inline">\(x\in S\)</span>, given that <span class="math inline">\(X_n=x_n\)</span>, does not depend on the previous values of <span class="math inline">\(X_{n-1}, X_{n-2},\dots\)</span>, see for example <a href="https://www.probabilitycourse.com/chapter11/11_2_1_introduction.php">Pishro-Nik, Section 11.2</a>: <span class="math display">\[
 \mathrm{P}(X_{n+1} = x\mid X_n=x_n, X_{n-1}=x_{n-1}, \dots) =

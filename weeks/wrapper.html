@@ -78,13 +78,13 @@ ul.task-list li input[type="checkbox"] {
 <style> .MathJax {font-size: 103% !important; } </style> 
 <script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
 <style>
-.Hint {
-  --color1: #93bf89;
-  --color2: #7c9f75;
-}
 .Exercise {
   --color1: #c0c0c0;
   --color2: #808080;
+}
+.Hint {
+  --color1: #93bf89;
+  --color2: #7c9f75;
 }
 </style>
 
@@ -320,8 +320,12 @@ window.Quarto = {
 <div class="hidden">
 
 </div>
-<div id="Prob-Bayes29" class="Exercise" title="A model for NBA data, and posterior checks">
-<p></p><details class="Exercise fbx-default closebutton"><summary><strong>Problem 1: </strong>A model for NBA data, and posterior checks</summary><div><span class="smallgray">cf Reich &amp; Ghosh, Chapter 5, Exercises 7 + 8.</span> <p></p>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<div id="Prob-Bayes29" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 1: </strong>A model for NBA data, and posterior checks</summary><div>
+<p><span class="smallgray">cf Reich &amp; Ghosh, Chapter 5, Exercises 7 + 8.</span> </p>
 <p>For the NBA free throw data described in Reich &amp; Ghosh, Section 1.6, Exercise 17, assume that for player <span class="math inline">\(i\)</span>, the number <span class="math inline">\(Y_i\)</span> of clutch makes is distributed as <span class="math inline">\({Y_i\mid p_i \sim\mathrm{Binomial}(n_i, p_i)}\)</span>, where <span class="math inline">\(n_i\)</span> is the number of clutch attempts, and <span class="math inline">\(p_i\)</span> is the clutch make probability. Compute the posterior probabilities of the models:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -334,7 +338,7 @@ window.Quarto = {
 <li><p>Specify the priors you use for the models’ parameters and discuss whether the results are sensitive to the prior.</p></li>
 <li><p>Fit model <span class="math inline">\(\mathcal{M}_2\)</span> to the NBA data and use posterior predictive checks to verify the model fits well. If you find model misspecification, suggest (but do not fit) alternatives.</p></li>
 </ol>
-<p>You can find the data as file <code>NBA-clutches.csv</code> in the <a href="https://drive.google.com/drive/folders/1XRfEbtQ1HKLaKkOCu7zhYxsidbn3YLam?usp=sharing"><code>data</code> folder on Google Drive</a> or <a href="https://math.au.dk/~ute/StatMod2026/assets/data/NBA-clutches.csv">download it here</a></p>
+<p>You can find the data as file <code>NBA-clutches.csv</code> in the <a href="https://drive.google.com/drive/folders/19d8DwZCQ2WfhG1BzAXReNuYQFbBzTVtg"><code>data</code> folder on Google Drive</a> or <a href="https://ute.github.io/statmod/assets/data/NBA-clutches.csv">download it here</a></p>
 </div></details>
 </div>
 <div class="hidden">
