@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 8: Bayesian statistics: the idea, and conjugate priors – StatMod Interactive Supplementary</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7c69b197886ae2a34062761d21e44731.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2a9a3f180cf500eef5b976fdc6f22fdf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7c69b197886ae2a34062761d21e44731.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6b423f165eeea3787de40cb4f8e821c3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-6b423f165eeea3787de40cb4f8e821c3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style> .MathJax {font-size: 103% !important; } </style> 
+<script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
+<style>
+.Hint {
+  --color1: #93bf89;
+  --color2: #7c9f75;
+}
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#relevant-readings" id="toc-relevant-readings" class="nav-link active" data-scroll-target="#relevant-readings">Relevant Readings</a></li>
+  <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link" data-scroll-target="#lecture-material">Lecture Material</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#general-hints-and-remarks" id="toc-general-hints-and-remarks" class="nav-link" data-scroll-target="#general-hints-and-remarks">General hints and remarks:</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="wk08.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<span class="math inline">\(\renewcommand{\text}[1]{\textsf{#1}}\)</span>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 8: Bayesian statistics: the idea, and conjugate priors</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<div class="hidden">
+
+</div>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<!--
+::: {.callout-important}
+## Ansage
+There are three lectures this week. Exercises start next week. 
+:::
+-->
+<p>This week, will start with the third big topic: Bayesian statistics.</p>
+<p>Lectures and exercises will be mainly based on the book <a href="https://soeg.kb.dk/permalink/45KBDK_KGL/1pioq0f/alma99124023326505763" target="_blank">BJ Reich, SK Ghosh (2019): Bayesian Statistical Methods</a>.</p>
+<p>The book starts with a review of probability background (Section 1.1) and of the Bayes rule for calculating conditional probabilities / conditional densities (Section 1.2). You can use these introductory sections for reference :-)</p>
+<p>I will very briefly recall the Bayes rule in the first lecture on Wednesday. Then, I will introduce the basic ideas of Bayesian statistics.</p>
+<p>On Friday, we will learn about conjugate priors: prior distributions that match well with the likelihood, such that the form of the posterior is analytically known. Then we will look at the distinction of informative and uninformative priors, and “improper” priors.</p>
+<section id="relevant-readings" class="level2">
+<h2 class="anchored" data-anchor-id="relevant-readings">Relevant Readings</h2>
+<ul>
+<li>Probability theory background (review): R&amp;G, Section 1.1, 1.2</li>
+<li>Basic ideas of Bayesian statistics: R&amp;G, Chapter 1: mainly 1.3-1.5</li>
+<li>Conjugate priors; RG, Sections 2.1.1-2.1.3 and 2.1.5</li>
+<li>Informative and uninformative priors, and “improper” priors: R&amp;G, Section 2.2</li>
+</ul>
+</section>
+<section id="lecture-material" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-material">Lecture Material</h2>
+<ul>
+<li><p><a href="https://drive.google.com/drive/folders/17dfAyOcVJe3pIwApPTMgn4BKZFrFpmjx?usp=sharing" target="_blank">Link to onenotes on Google drive</a></p></li>
+<li><p>Example for calculating and plotting the posterior: <a href="https://math.au.dk/~ute/StatMod2026/Bayesian/Bayes_posterior_Poissonexample.html">Reich &amp; Ghosh, Exercise 1.14</a></p></li>
+</ul>
+<!-- <iframe src="https://drive.google.com/embeddedfolderview?id=1Pmp0yQiYroBWt-0xgtnmsXwaUxaPMc_v#list" width="100%" frameborder="0"></iframe>  -->
+</section>
+<section id="exercises" class="level2" data-numberprefix="8">
+<h2 data-numberprefix="8" class="anchored" data-anchor-id="exercises">Exercises</h2>
+<div id="Prob-Bayes1" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 8.1: </strong>Conditional probability of species detection</summary><div>
+<p>Reich &amp; Ghosh, Chapter 1, Exercise 10</p>
+<p>Let <span class="math inline">\(X_1 \sim \mathrm{Bernoulli}(\theta)\)</span> be the indicator that a tree species occupies a forest and <span class="math inline">\(\theta \in [0, 1]\)</span> denote the prior occupancy probability.</p>
+<p>The researcher gathers a sample of <span class="math inline">\(n\)</span> trees from the forest and <span class="math inline">\(X_2\)</span> belong to the species of interest. The model for the data is <span class="math inline">\(X_2\mid X_1 \sim \mathrm{Binomial}(n, \lambda X_1)\)</span> where <span class="math inline">\(\lambda\in [0, 1]\)</span> is the probability of detecting the species given it is present.</p>
+<p>Give expressions in terms of <span class="math inline">\(n, \theta\)</span> and <span class="math inline">\(\lambda\)</span> for the following joint, marginal and conditional probabilities:</p>
+<ol type="a">
+<li><span class="math inline">\(\mathrm{P}(X_1 = X_2 = 0)\)</span>.</li>
+<li><span class="math inline">\(\mathrm{P}(X_1 = 0)\)</span>.</li>
+<li><span class="math inline">\(\mathrm{P}(X_2 = 0)\)</span>.</li>
+<li><span class="math inline">\(\mathrm{P}(X_1 = 0 \mid X_2 = 0)\)</span>.</li>
+<li><span class="math inline">\(\mathrm{P}(X_2 = 0 \mid X_1 = 0)\)</span>.</li>
+<li><span class="math inline">\(\mathrm{P}(X_1 = 0 \mid X_2 = 1)\)</span>.</li>
+<li><span class="math inline">\(\mathrm{P}(X_2 = 0 \mid X_1 = 1)\)</span>.</li>
+<li>Provide intuition for how (d)-(g) change with <span class="math inline">\(n\)</span>, <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\lambda\)</span>.</li>
+<li>Assuming <span class="math inline">\(\theta = 0.5\)</span>, <span class="math inline">\(\lambda = 0.1\)</span>, and <span class="math inline">\(X_2 = 0\)</span>, how large must <span class="math inline">\(n\)</span> be before we can conclude with 95% confidence that the species does not occupy the forest?</li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes2" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 8.2: </strong>Bayesian classification of vegetation images</summary><div>
+<p>Reich &amp; Ghosh, Chapter 1, Exercise 13</p>
+<p>The normalized difference vegetation index (NDVI) is commonly used to classify land cover using remote sensing data. Hypothetically, say that NDVI follows a <span class="math inline">\(\mathrm{Beta}(25, 10)\)</span> distribution for pixels in a rain forest, and a <span class="math inline">\(\mathrm{Beta}(10, 15)\)</span> distribution for pixels in a deforested area now used for agriculture. <br> Assuming about 10% of the rain forest has been deforested, your objective is to build a rule to classify individual pixels as deforested based on their NDVI.</p>
+<ol type="a">
+<li><p>Plot the PDF of NDVI for forested and deforested pixels, and the marginal distribution of NDVI averaging over categories.</p></li>
+<li><p>Give an expression for the probability that a pixel is deforested given its NDVI value, and plot this probability by NDVI.</p></li>
+<li><p>You will classify a pixel as deforested if you are at least 90% sure it is deforested. Following this rule, give the range of NDVI that will lead to a pixel being classified as deforested.<br></p></li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes3" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 8.3: </strong>Bayesian prediction of seedling survival</summary><div>
+<p>Reich &amp; Ghosh, Chapter 1, Exercise 15</p>
+<p>Last spring your lab planted ten seedlings and two survived the winter. Let <span class="math inline">\(\theta\)</span> be the probability that a seedling survives the winter.</p>
+<ol type="a">
+<li><p>Assuming a uniform prior distribution for <span class="math inline">\(\theta\)</span>, compute its posterior mean and standard deviation.</p></li>
+<li><p>Assuming the same prior as in (a), compute and compare the equal-tailed and highest density 95% posterior credible intervals.</p></li>
+<li><p>If you plant another 10 seedlings next year, what is the posterior predictive probability that at least one will survive the winter?</p></li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes4" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 8.4: </strong>Bayesian analysis of sports data: good or bad season?</summary><div>
+<p><span class="smallgray">see Reich &amp; Ghosh, Chapter 1, Exercise 17</span></p>
+<p>The table below shows free throw results in pressure situations (called “clutch” <a href="https://stats.nba.com/" class="uri">https://stats.nba.com/</a>) for ten National Basketball Association players (those that received the most votes for the Most Valuable Player Award). The column “Overall proportion” stands for a long term average of success rate before 2016, while “Clutch makes” and “Clutch attempts” refer to the 2016/2017 season.</p>
+<p>When you calculate the success rate in the 2016/17 season, it will deviate in most cases from the long term result. Does this mean the player’s capabilities have changed?</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 18%">
+<col style="width: 22%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Player</th>
+<th style="text-align: right;">Clutch makes</th>
+<th style="text-align: right;">Clutch attempts</th>
+<th style="text-align: right;">Overall proportion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Russell Westbrook</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.845</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">James Harden</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">95</td>
+<td style="text-align: right;">0.847</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Kawhi Leonard</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">0.880</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LeBron James</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">0.674</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Isaiah Thomas</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">0.909</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stephen Curry</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0.898</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Giannis Antetokounmpo</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">0.770</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">John Wall</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">0.801</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Anthony Davis</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">0.802</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kevin Durant</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0.875</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Analyze the clutch data for each player separately using Bayesian methods. Assume a prior throughout this problem.</p>
+<ol type="a">
+<li><p>Describe your model for studying the clutch success probability including the likelihood and prior.</p></li>
+<li><p>Plot the posteriors of the clutch success probabilities.</p></li>
+<li><p>Summarize the posteriors in a table, including posterior median and limits of a 95% credible interval.</p></li>
+<li><p>Do you find evidence that the current percentage of makes differs from the overall percentage for any of the players?</p></li>
+<li><p>Are the results sensitive to your prior? That is, do small changes in the prior lead to substantial changes in the posterior?</p></li>
+</ol>
+<p><strong>Remarks:</strong></p>
+<p>For your convenience, you can download the data as file <a href="https://math.au.dk/~ute/StatMod2026/weeks/data/NBA-clutches.csv"><code>NBA-clutches.csv</code></a> or find it in the <a href="https://drive.google.com/drive/folders/19d8DwZCQ2WfhG1BzAXReNuYQFbBzTVtg"><code>data</code> folder on Google Drive</a>.</p>
+<div id="cnb-5-Hint" class="Hint" data-label="Hints" data-_nested="Prob-Bayes4">
+<details class="Hint fobx-default closebutton"><summary><strong>Hints</strong></summary><div>
+<ul>
+<li><p>A distribution of the form <span class="math inline">\(f(x) \propto x^{\alpha-1} (1-x)^{\beta-1}\)</span> is a <span class="math inline">\(\mathrm{Beta}(\alpha,\beta)\)</span> distribution.</p></li>
+<li><p>In (b) you should find that the posteriors are Beta distributions. Then you can use R’s built in functions to plot the posteriors and calculate probabilities and quantiles.</p></li>
+<li><p>In (e) it makes sense to use a Beta distribution as prior. Choose parameters such that it is not too different from the uniform.</p></li>
+</ul>
+</div></details>
+</div>
+</div></details>
+</div>
+<div id="Prob-Bayes5" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 8.5: </strong>Bayesian classification of authors</summary><div>
+<p>Reich &amp; Ghosh, Chapter 1, Exercise 18. Very American background ;-)</p>
+<p>In the early twentieth century, it was generally agreed that Hamilton and Madison (ignore Jay for now) wrote 51 and 14 Federalist Papers, respectively. There was dispute over how to attribute 12 other papers between these two authors. In the 51 papers attributed to Hamilton the word “upon” was used 3.24 times per 1,000 words, compared to 0.23 times per 1,000 words in the 14 papers attributed to Madison (for historical perspective on this problem, see Mosteller and Wallace, 1963<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>)</p>
+<ol type="a">
+<li><p>If the word “upon” is used three times in a disputed text of length 1,000 words and we assume the prior probability 0.5, what is the posterior probability the paper was written by Hamilton?</p></li>
+<li><p>Give one assumption you are making in (a) that is likely unreasonable. Justify your answer.</p></li>
+<li><p>In (a), if we changed the number of instances of “upon” to one, do you expect the posterior probability to increase, decrease or stay the same? Why?</p></li>
+<li><p>In (a), if we changed the text length to 10,000 words and number of instances of “upon” to 30, do you expect the posterior probability to increase, decrease or stay the same? Why?</p></li>
+<li><p>Let <span class="math inline">\(Y\)</span> be the number of observed number of instances of “upon” in 1,000 words. Compute the posterior probability the paper was written by Hamilton for each <span class="math inline">\(Y \in\{ 0, 1,\dots ,20\}\)</span> plot these posterior probabilities versus Y and give a rule for the number of instances of “upon” needed before the paper should be attributed to Hamilton.</p></li>
+</ol>
+</div></details>
+</div>
+<section id="general-hints-and-remarks" class="level3">
+<h3 class="anchored" data-anchor-id="general-hints-and-remarks">General hints and remarks:</h3>
+<section id="discrete-priors-to-select-between-likelihoods" class="level4">
+<h4 class="anchored" data-anchor-id="discrete-priors-to-select-between-likelihoods">Discrete priors to select between likelihoods</h4>
+<p>In Exercise <a href="#Prob-Bayes2">8.2</a>, we want to decide between different likelihoods, corresponding to different reasons for these likelihoods (in these exercises, we have only two options to choose between). Then we assign a probability to each reason. This means the prior is discrete, and the posterior assigns a new probability to the reasons. The denominator in the formula for the posterior distribution (1.36 in Ghosh) is then a sum.</p>
+</section>
+<section id="r-to-solve-a-nonlinear-equation" class="level4">
+<h4 class="anchored" data-anchor-id="r-to-solve-a-nonlinear-equation">R to solve a nonlinear equation</h4>
+<p>If you need to solve an equation of the form <span class="math inline">\(g(x)=0\)</span> that looks hopeless, remember that function <code>uniroot</code> can be helpful (e.g.&nbsp;Exercise 8.1 c)</p>
+
+
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Frederick Mosteller and David L Wallace (1963): Inference in an authorship problem: A comparative study of discrimination methods applied to the authorship of the disputed Federalist Papers. <em>Journal of the American Statistical Association</em>, <strong>58</strong>(302):275-309.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

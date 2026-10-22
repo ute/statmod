@@ -1,0 +1,31 @@
+/* css styles */
+
+.greyed {
+  background-color: lightgray; 
+  opacity: 0.8;
+  filter: grayscale(80%);
+}
+
+.smallgray {
+  color: gray; 
+  font-size: smaller;
+}
+
+hruled {
+  display: flex;
+  flex-direction: row;
+}
+hruled:before, hruled:after{
+  content: " ";
+  flex: 1 1;
+  border-bottom: 1px solid;
+  margin: auto;
+}
+/* try to make toc menu appear on mobile
+@media (max-width: 768px) {
+  nav[role='doc-toc'] {
+    display: block;
+  }
+}
+ */ 
+/* https://github.com/quarto-dev/quarto-cli/issues/5961 */

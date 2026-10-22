@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Week 6: Algorithms, and models for count data – StatMod Interactive Supplementary</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7c69b197886ae2a34062761d21e44731.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2a9a3f180cf500eef5b976fdc6f22fdf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7c69b197886ae2a34062761d21e44731.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6b423f165eeea3787de40cb4f8e821c3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-6b423f165eeea3787de40cb4f8e821c3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style> .MathJax {font-size: 103% !important; } </style> 
+<script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
+<style>
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
+}
+.Hint {
+  --color1: #93bf89;
+  --color2: #7c9f75;
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#relevant-readings" id="toc-relevant-readings" class="nav-link active" data-scroll-target="#relevant-readings">Relevant Readings</a></li>
+  <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link" data-scroll-target="#lecture-material">Lecture Material</a></li>
+  <li><a href="#exercises-6" id="toc-exercises-6" class="nav-link" data-scroll-target="#exercises-6">Exercises 6</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="wk06.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<span class="math inline">\(\renewcommand{\text}[1]{\textsf{#1}}\)</span>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 6: Algorithms, and models for count data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<!--
+::: {.callout-important}
+## Ansage
+There are three lectures this week. Exercises start next week. 
+:::
+-->
+<p>We will conclude the general topics about mle for now with a look at the actual algorithms behind maximum likelihood estimation as done by function <code>glm</code>: Fisher scoring and iteratively reweighted least squares.</p>
+<p>Then we continue with particular generalized linear models, for binary and count data. For binary or binomial data (proportions of successes in Bernoulli trials), numerous link functions have been suggested. They can be motivated by a “model hidden behind the model”: we imagine that the success of a Bernoulli trial depends on an unknown “latent” variable. An important application for the binomial model are contingency tables. The straightforward choice for count data are Poisson distributions. We will see that the canonical link function (log link) has a direct interpretation as “multiplicative” model.</p>
+<p>If there is time, we will look at the theory behind the AIC criterion for model fit.</p>
+<section id="relevant-readings" class="level2">
+<h2 class="anchored" data-anchor-id="relevant-readings">Relevant Readings</h2>
+<ul>
+<li>Algorithms to find the mle: Agresti, 4.5, Davison 10.2.2 and 10.3.2.<br>
+</li>
+<li>Models for binary and count data: Davison, 10.4, 10.5.<br>
+</li>
+<li>Multinomial model and the “Poisson trick”: Davison 10.5.2.</li>
+</ul>
+</section>
+<section id="lecture-material" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-material">Lecture Material</h2>
+<ul>
+<li><p><a href="https://drive.google.com/drive/folders/1ruguO82LMRN22xNc7n4kJi30-KWqnLm-?usp=sharing" target="_blank">Link to onenotes on Google drive</a></p></li>
+<li><p>[Lecture 12] <br> <a href="https://math.au.dk/~ute/StatMod2026/GLM/deadflies.html" target="_blank">About the “dead flies” data set</a> <br> <a href="https://math.au.dk/~ute/StatMod2026/GLM/slides-glm-proportions.html" target="_blank">slides</a></p></li>
+<li><p>[Lecture 13] <br> <a href="https://math.au.dk/~ute/StatMod2026/GLM/soccer.html" target="_blank">Processing and Analysis of Premier League Data</a> <br> <a href="https://math.au.dk/~ute/StatMod2026/GLM/ship-insurance.html" target="_blank">Ship Insurance Incidences</a> - Poisson rates <br></p></li>
+</ul>
+<!-- 
+<iframe src="https://drive.google.com/embeddedfolderview?id=14ToxiKinWg7oJZUWHKLjturCJ6s2Acwc#list" width="100%" frameborder="0"></iframe> 
+ -->
+</section>
+<section id="exercises-6" class="level2" data-numberprefix="6">
+<h2 data-numberprefix="6" class="anchored" data-anchor-id="exercises-6">Exercises 6</h2>
+<div class="hidden">
+
+</div>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<div id="ld_50-for-the-bliss-data-compare-different-link-functions." class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 6.1: </strong>LD<span class="math inline">\(_{50}\)</span> for the “bliss” data – compare different link functions.</summary><div>
+<p>Dataset <code>bliss</code> from the <code>SMpracticals</code> library contains data on mortality of flour-beetles as a function of dose of the poison carbon disulphide (Bliss, 1935, Table IV). To analyze these data, Bliss used a binomial generalized linear model with probit link.</p>
+<ol type="a">
+<li><p>Fit a binomial glm with <em>canonical link</em> to the data and estimate the LD<span class="math inline">\(_{50}\)</span>. Evaluate the fit of your model with different summary statistics and graphical methods.</p></li>
+<li><p>Repeat exercise (a) with the probit link and with the complementary log-log link.</p></li>
+<li><p>Would you prefer any of these three link functions? If so, why?</p></li>
+</ol>
+</div></details>
+</div>
+<div class="hidden">
+
+</div>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<div id="model-parsimonity-a-simulation-experiment." class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 6.2: </strong>Model parsimonity: a simulation experiment.</summary><div>
+<p>(Adapted from Agresti (2015), exercises 4.36 and 4.37)</p>
+<p>For <span class="math inline">\(x\)</span> between 0 and 100, suppose the normal linear model holds with <span class="math display">\[\mathrm{E}\,(y) = 45 + 0.1x + 5\cdot 10^{-4}\, x^2 + 5\cdot 10^{-7}\, x^3 + 5\cdot 10^{-10}\,x^4 +5\cdot 10^{-13} \,x^5\]</span></p>
+<p>and <span class="math inline">\(\sigma = 10.0\)</span>. Randomly generate <span class="math inline">\(n=25\)</span> observations from the model, with <span class="math inline">\(x\)</span> having a uniform distribution between 0 and 100. Fit the simple model <span class="math display">\[
+M_1:\quad \mu_j= \beta_0 + \beta_1x_j,
+\]</span> an “intermediate” model <span class="math display">\[
+M_2:\quad \mathrm{E}\,(y) = \beta_0+\beta_1 x + \beta_2 x^2,
+\]</span> and the “correct” model <span class="math display">\[
+M_5:\quad \mathrm{E}\,(y) = \beta_0 + \beta_1 x + \cdots + \beta_5x^5.
+\]</span></p>
+<p>Construct plots, showing the data, the true relationship, and the model fits. For each model, summarize the quality of the fit by the average of <span class="math inline">\(|\hat\mu_j - \mu_j|\)</span>, that is, <span class="math inline">\(\frac{1}{n}\sum_{j=1}^n |\hat\mu_j - \mu_j|\)</span>, where <span class="math inline">\(\mu_j=\mathrm{E}\,(y_j)\)</span> and <span class="math inline">\(\hat\mu_j\)</span> is the <span class="math inline">\(j\)</span>th fitted value, depending on the model: for example in model <span class="math inline">\(M_1\)</span>, <span class="math inline">\(\mu_j=\beta_0+\beta_1 x_j\)</span> and <span class="math inline">\(\hat\mu_j=\hat\beta_0+\hat\beta_1 x_j\)</span>.</p>
+<p>Repeat the experiment several times with different <span class="math inline">\(x\)</span>-values. It is also interesting to look what happens if you increase the number of observations substantially, or change the true coefficients.</p>
+<p>Summarize, and explain what this exercise illustrates about model parsimony. What does the fit of the “correct” model <span class="math inline">\(M_5\)</span> illustrate about (multi)collinearity?</p>
+<div id="cnb-3-Hint" class="Hint" data-_nested="model-parsimonity-a-simulation-experiment.">
+<details class="Hint fobx-default closebutton"><summary><strong>Hint</strong></summary><div>
+<p>To fit polynomial models such as <span class="math inline">\(M_2\)</span> in R, you can directly specify the components: <code>y ~ I(x) + I(x^2)</code> or use the convenient function <code>poly</code>, namely <code>y ~ poly(x, 2, raw = TRUE)</code>.</p>
+</div></details>
+</div>
+</div></details>
+</div>
+<div class="hidden">
+
+</div>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<div id="a-graphical-model-check." class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 6.3: </strong>A graphical model check.</summary><div>
+<p>(From Agresti, 7.28)</p>
+<p>Other than a formal goodness-of-fit test, one analysis that provides a sense of whether a particular GLM is plausible is the following:</p>
+<p>Suppose the ML fitted equation were the true equation. At the observed <span class="math inline">\(x\)</span>-values for the <span class="math inline">\(n\)</span> observations, randomly generate <span class="math inline">\(n\)</span> variates with distributions specified by the fitted GLM. Construct scatterplots. Do they look like the scatterplots that were actually observed?</p>
+<p>Do this for a Poisson loglinear model for the horseshoe crab data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, with <span class="math inline">\(y\)</span> = number of satellites and <span class="math inline">\(x\)</span> = width. Does the variability about the fit resemble that in the actual data, including a similar number of 0’s and large values? Repeat this a few times to get a better sense of how the scatterplot observed differs from what you would observe if the Poisson GLM truly held.</p>
+<p><!-- %FIY: Similar ideas are realized in the wallyplot function of R package MESS by Claus Ekstrøm. --></p>
+<p>(Find the dataset <code>crabs</code> in the <a href="https://drive.google.com/drive/folders/19d8DwZCQ2WfhG1BzAXReNuYQFbBzTVtg"><code>data</code> folder on Google Drive</a>)</p>
+</div></details>
+</div>
+<div class="hidden">
+
+</div>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<div id="modelling-variance-in-repeated-experiments." class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 6.4: </strong>Modelling variance in repeated experiments.</summary><div>
+<p>Davison, Problem 10.10.8, plus hints.</p>
+<ol type="a">
+<li><p>Show that the scaled chi-squared density with known degrees of freedom <span class="math inline">\(\nu\)</span>, <span class="math display">\[
+f(y;\sigma, \nu)=\frac{y^{\nu/2-1}}{2^{\nu/2}\sigma^\nu\Gamma(\nu/2)}\exp\left(-\frac{y}{2\sigma^2}\right),\quad y&gt;0, \sigma&gt;0,\nu=1,2,\dots,
+\]</span> is exponential dispersion family. Express the canonical parameter <span class="math inline">\(\theta\)</span> and the dispersion parameter <span class="math inline">\(\phi\)</span> as functions of <span class="math inline">\(\nu\)</span> and <span class="math inline">\(\sigma^2\)</span>.<br>
+Hence derive an expression for its <span class="math inline">\(r\)</span> th cumulant, <span class="math inline">\(r\geq 1\)</span>.</p>
+<div id="cnb-6-Hint" class="Hint" data-_nested="modelling-variance-in-repeated-experiments.">
+<details class="Hint fobx-default closebutton"><summary><strong>Hint</strong></summary><div>
+<ul>
+<li><p>Consider <span class="math inline">\(\nu\)</span> as a known constant. Several choices for <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\phi\)</span> are possible, and <span class="math inline">\(\phi\)</span> is a constant, too. One possible choice is <span class="math inline">\(\phi = -2\)</span>; with this choice, the canonical link function depends on <span class="math inline">\(\nu\)</span>. Another option is <span class="math inline">\(\phi = -2/\nu\)</span> — check it out :-) If you need a reminder for the moment generating function look at the top of Davison, page 481. Then you easily recall the cumulant generating function.</p></li>
+<li><p>To control your calculations: the second cumulant is <span class="math inline">\(\kappa_2=2\nu\sigma^4\)</span>, the variance of <span class="math inline">\(y\)</span>.</p></li>
+</ul>
+</div></details>
+</div></li>
+<li><p>The yield of an industrial process was measured <span class="math inline">\(r_i\)</span> times independently at m different temperatures <span class="math inline">\(t_i\)</span> . The resulting yields <span class="math inline">\(Z_{ij} , i = 1,\dots ,m, j = 1, \dots , r_i\)</span> may be assumed to be independent and normally distributed with both <span class="math inline">\(\zeta_i\)</span> and variances <span class="math inline">\(\tau_i\)</span> dependent on <span class="math inline">\(t_i\)</span>.</p>
+<p>Explain how the sums of squares <span class="math inline">\(Y_i =\sum_{j=1}^{r_i}(Z_{ij}-\overline{Z}_i)^2\)</span>, where <span class="math inline">\(\overline{Z}_i=\frac{1}{r_i}\sum_{j=1}^ {r_i} Z_{ij},\)</span> may be used to assess the dependence of variance on temperature in a suitable generalized linear model.</p>
+<p>Briefly discuss the advantages and disadvantages of the canonical link function of your model.</p></li>
+</ol>
+</div></details>
+</div>
+<div class="hidden">
+
+</div>
+<div class="hidden">
+<p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
+</div>
+<div id="deviance-for-the-binary-logistic-model." class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 6.5: </strong>Deviance for the binary logistic model.</summary><div>
+<p>Davison, Exercises 10.4.1.</p>
+<p>This exercise deals with data <span class="math inline">\(y_1,\dots,y_n\)</span> that come frome independent Bernoulli experiments with probability parameter <span class="math inline">\(\pi_1,\dots, \pi_n\)</span>.</p>
+<p>A little extra before solving parts a-c: identify the distribution of <span class="math inline">\(Y_j\)</span> with <span class="math inline">\(\mathrm{P}(Y_j=1) = \pi_j\)</span> and <span class="math inline">\(\mathrm{P}(Y_j=0) = 1-\pi_j\)</span> as an exponential dispersion distribution with dispersion parameter <span class="math inline">\(\phi=1\)</span>. Determine the canonical parameter <span class="math inline">\(\theta\)</span> and the function <span class="math inline">\(b\)</span>.</p>
+<p>Here is the exercise text from Davison:</p>
+<p>Data <span class="math inline">\(y_1,\dots, y_n\)</span> are assumed to follow a binary logistic model in which <span class="math inline">\(y_j\)</span> takes value 1 with probability <span class="math inline">\(\pi_j = \exp(x^{\mathsf{T}}_j\beta)/(1 + \exp(x^{\mathsf{T}}_j\beta))\)</span> and value 0 otherwise, for <span class="math inline">\(j = 1, \dots , n\)</span>.</p>
+<ol type="a">
+<li><p>Show that the deviance for a model with fitted probabilities <span class="math inline">\(\hat{\pi}_j\)</span> can be written as <span class="math display">\[
+D = −2\left(y^{\mathsf{T}}X\hat \beta +\sum_{j=1}^n \log(1-\hat\pi_j)\right)
+\]</span> and that the likelihood equation is <span class="math inline">\(X^{\mathsf{T}}y = X^{\mathsf{T}}\hat\pi\)</span>. Hence show that the deviance is a function of the <span class="math inline">\(\hat\pi_j\)</span> alone.</p></li>
+<li><p>If <span class="math inline">\(\pi_1=\dots=\pi_n = \pi\)</span>, then show that <span class="math inline">\(\hat\pi=\bar{y}\)</span>, and verify that <span class="math display">\[
+D = -2n \left(\bar{y} \log \bar{y} + (1-\bar{y}) \log(1 - \bar{y})\right).
+\]</span> Comment on the implications for using <span class="math inline">\(D\)</span> to measure the discrepancy between the data and fitted model.</p></li>
+<li><p>Assuming that <span class="math inline">\(\pi_1=\dots=\pi_n = \pi\)</span> (as in part (b)), show that Pearson’s statistic, formula (10.21) in Davison, <span class="math display">\[
+   P = \frac{1}{\phi}\sum_{j=1}^n\frac{(y_j-\hat\mu_j)^2}{V(\hat\mu_j)/a_j},
+\]</span><br>
+is identically equal to <span class="math inline">\(n\)</span>. Comment.</p></li>
+</ol>
+<div id="cnb-8-Hint" class="Hint" data-label="Hints" data-_nested="deviance-for-the-binary-logistic-model.">
+<details class="Hint fobx-default closebutton"><summary><strong>Hints</strong></summary><div>
+<p>for (a), observe that the likelihood of the saturated model is <span class="math inline">\(L(\pi)=1\)</span> (this is also the likelhood for the parameter <span class="math inline">\(\beta\)</span> of the glm).</p>
+<p>In (c): Rmember the definition of <span class="math inline">\(a_j\)</span> in this context: <span class="math inline">\(a_j=\phi_j/\phi\)</span>. In this exercise, use <span class="math inline">\(\phi=1\)</span> and <span class="math inline">\(a_j=1\)</span> in formula (10.21).</p>
+</div></details>
+</div>
+</div></details>
+</div>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Atlantic horseshoe crabs come to the beach to mate in nights with high tide and full moon. The larger female crabs are surrounded by smaller males, called satellites, that wait to fertilize the eggs laid by the females. The <code>crabs.csv</code> file in Google drive folder <code>data</code> contains the observations for 173 female horseshoe crabs, with variables <code>y</code>: number of satellites, <code>weight</code>: weight in kg, <code>width</code>: carapax width in cm, <code>color</code>: a color category (integer valued), and <code>spine</code>: condition of the spine, an ordinal variable (integer valued)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

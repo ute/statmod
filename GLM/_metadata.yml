@@ -1,0 +1,15 @@
+format:
+  live-html:
+    theme:
+      light: flatly
+      dark: darkly  
+    css: styles.css
+    toc: true
+    webr: default
+  # pdf:
+  #   documentclass: article
+  #   papersize: a4
+  #   include-in-header:
+  #     - ugeseddelstyle.tex
+  #   include-before-body: 
+  #     text: "\\thispagestyle{titlepage}"
