@@ -78,13 +78,13 @@ ul.task-list li input[type="checkbox"] {
 <style> .MathJax {font-size: 103% !important; } </style> 
 <script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
 <style>
-.Exercise {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
 .Hint {
   --color1: #93bf89;
   --color2: #7c9f75;
+}
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
 }
 </style>
 
@@ -297,7 +297,7 @@ window.Quarto = {
   <ul>
   <li><a href="#relevant-readings" id="toc-relevant-readings" class="nav-link active" data-scroll-target="#relevant-readings">Relevant Readings</a></li>
   <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link" data-scroll-target="#lecture-material">Lecture Material</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#exercises-9" id="toc-exercises-9" class="nav-link" data-scroll-target="#exercises-9">Exercises 9</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="wk09.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -326,9 +326,6 @@ window.Quarto = {
 
 
 <div class="hidden">
-<p>comments</p>
-</div>
-<div class="hidden">
 <p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
 </div>
 <div class="hidden">
@@ -336,37 +333,22 @@ window.Quarto = {
 </div>
 <div class="hidden">
 <p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Extended lectures on Wednesday
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Wednesday this week (October 29th), and Wednesday in week 11 (November 12th), we will have longer of lectures, that is from 14-17.</p>
-<p>This is to make up for the fact that there will be no lectures on Wednesday, November 5th (course week 10).</p>
-</div>
 </div>
 <!--
 
 -->
 <p>Topics for this week include:</p>
-<ul class="task-list">
-<li><p><label><input type="checkbox">More on priors: examples for conjugate priors, mixtures of conjugate priors, and objective priors, in particular Jeffreys’ prior.</label></p></li>
-<li><p><label><input type="checkbox">Calculating summaries for the posterior when the prior is not the conjugate prior: calculation of maximum a posteriori estimate (MAP), numerical integration, and Laplace’s approximation for the posterior: the “Bayesian CLT”.</label></p></li>
-<li><p><label><input type="checkbox">If time allows, we have a look at the <a href="../assets/papers/BayesPrice1763.pdf">paper by Mr.Bayes and Mr.Price (1763)</a>: “An Essay towards Solving a Problem in the Doctrine of Chances”, <em>Philosophical Transactions</em>, 1763, Vol. 53, pp.&nbsp;370-418, where they introduced the idea of sequentially updating one’s believe by experiments.</label></p></li>
-<li><p><label><input type="checkbox">Finally, we will discuss the general idea of Markov Chain Monte Carlo methods. These methods are based on results for Markov chains, that we will review. You may know Markov chains with finitely many possible outcomes, that is, the values are integers (finite state space). Here, we use Markov chains with real valued outcomes (continuous state space).</label></p></li>
+<ul>
+<li><p>More on priors: examples for conjugate priors, mixtures of conjugate priors, and objective priors, in particular <em>Jeffreys’ prior</em>.</p></li>
+<li><p>Calculating summaries for the posterior when the prior is not the conjugate prior: calculation of maximum a posteriori estimate (MAP), numerical integration, and Laplace’s approximation for the posterior: the “Bayesian CLT”.</p></li>
+<li><p>If time allows, we will discuss the general idea of Markov Chain Monte Carlo methods. These methods are based on results for Markov chains, that we will review. You may know Markov chains with finitely many possible outcomes, that is, the values are integers (finite state space). Here, we use Markov chains with real valued outcomes (continuous state space).</p></li>
 </ul>
 <section id="relevant-readings" class="level2">
 <h2 class="anchored" data-anchor-id="relevant-readings">Relevant Readings</h2>
 <ul>
 <li>More on priors: R&amp;G, Sections 2.1, 2.3.1</li>
 <li>Numerical methods: R&amp;G, Section 3.1</li>
-<li><a href="https://ute.github.io/statmod/Bayesian/MarkovChains.html">Notes on Markov chains</a> with finite and continuous state space (may get updated before we use them)</li>
+<li><a href="https://ute.github.io/statmod/Bayesian/MarkovChains.html">Notes on Markov chains</a> with finite and continuous state space</li>
 </ul>
 </section>
 <section id="lecture-material" class="level2">
@@ -375,14 +357,81 @@ window.Quarto = {
 <li><p><a href="https://drive.google.com/drive/folders/1BisNBbInJUQrxnrSMs1RCJcQ1_evzlNT?usp=sharing" target="_blank">Link to onenotes on Google drive</a></p></li>
 <li><p><a href="https://ute.github.io/statmod/Bayesian/MixedPriors-Fig-2-5.html">Code for R&amp;g, Figure 2.5</a></p></li>
 <li><p><a href="https://ute.github.io/statmod/Bayesian/RG-Figure-3-2-BinomialCLT.html">Code for R&amp;G, Figure 3.2</a></p></li>
-<li><p><a href="https://ute.github.io/statmod/Bayesian/MarkovChain-example.html">Experiments with AR(1) chains</a> <!--
+<li><p><a href="https://ute.github.io/statmod/Bayesian/MarkovChain-example.html">(evt.) Experiments with AR(1) chains</a> <!--
 <iframe src="https://drive.google.com/embeddedfolderview?id=1XIxG0eFZNAzXyIFh0-m6bpYDowI_vv4N#list" width="100%" frameborder="0"></iframe> 
 --></p></li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-numberprefix="9">
-<h2 data-numberprefix="9" class="anchored" data-anchor-id="exercises">Exercises</h2>
-<p>tba</p>
+<section id="exercises-9" class="level2" data-numberprefix="9">
+<h2 data-numberprefix="9" class="anchored" data-anchor-id="exercises-9">Exercises 9</h2>
+<div id="Prob-Bayes6" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 9.1: </strong>Negative binomial – beta model</summary><div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 2, Exercise 4.</span></p>
+<p>Assume that <span class="math inline">\(Y \mid \theta \sim \mathrm{NegBinomial}(\theta, m)\)</span> (see also Appendix A.1 in Reich and Ghosh) and <span class="math inline">\(\theta \sim \mathrm{Beta}(a, b)\)</span>.</p>
+<ol type="a">
+<li><p>Derive the posterior of <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Plot the posterior of <span class="math inline">\(\theta\)</span> and give its 95% credible interval assuming <span class="math inline">\(m = 5, Y = 10\)</span>, and <span class="math inline">\(a = b = 1\)</span>.</p></li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes7" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 9.2: </strong>Modelling side effects of medication</summary><div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 2, Exercise 8.</span></p>
+<p>The Mayo Clinic conducted a study of <span class="math inline">\(n = 50\)</span> patients followed for one year on a new medication and found that <span class="math inline">\(30\)</span> patients experienced no adverse side effects (ASE), <span class="math inline">\(12\)</span> experienced one ASE, <span class="math inline">\(6\)</span> experienced two ASEs and <span class="math inline">\(2\)</span> experienced ten ASEs.</p>
+<ol type="a">
+<li><p>Derive the posterior of <span class="math inline">\(\lambda\)</span> for the Poisson/gamma model <span class="math inline">\(Y_1, \dots, Y_n \mid\lambda \stackrel{\text{i.i.d.}}{\sim }\mathrm{Poisson}(\lambda)\)</span> and <span class="math inline">\(\lambda \sim \mathrm{Gamma}(a, b)\)</span>.</p></li>
+<li><p>Use the Poisson/gamma model with <span class="math inline">\(a = b = 0.01\)</span> to study the rate of adverse events. Plot the posterior and give the posterior mean and 95% credible interval.</p></li>
+<li><p>Repeat this analysis with <span class="math inline">\(\mathrm{Gamma}(0.1,0.1)\)</span> and <span class="math inline">\(\mathrm{Gamma}(1,1)\)</span> priors and discuss sensitivity to the prior.</p></li>
+<li><p>Plot the data versus the <span class="math inline">\(\mathrm{Poisson}(\hat\lambda)\)</span> PMF, where <span class="math inline">\(\hat\lambda\)</span> is the posterior mean of <span class="math inline">\(\lambda\)</span> from part (b). Does the Poisson likelihood fit well?</p></li>
+<li><p>The current medication is thought to have around one adverse side effect per year. What is the posterior probability that this new medication has a higher side effect rate than the previous mediation? Are the results sensitive to the prior? <br></p></li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes8" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 9.3: </strong>Priors and parametrization</summary><div>
+<!-- % not done in TO 2023. Too bad. -->
+<!-- this is actually a fast, easy to solve problem once you know what is meant -->
+<p>In this exercise, you look at different possibilities to parametrize a prior distribution, and at the consequences: what does a prior on one parametrization mean for the other parametrization?</p>
+<p>Additionally to (or instead of) simulations, you could also try to calculate the induced prior densities and plot them over the histograms.</p>
+<p><strong>Hint:</strong> You do not need to do any Bayesian analysis in this exercise, just look at the distributions of <span class="math inline">\(\gamma\)</span> (in parts a and b) and of <span class="math inline">\(\theta\)</span> (in c and d), respectively.</p>
+<p>Here is the exercise <span class="smallgray">(Reich &amp; Ghosh, Chapter 2, Exercise 11)</span>:</p>
+<p>Let <span class="math inline">\(\theta\)</span> be the binomial success probability and <span class="math inline">\(\gamma = \theta/(1-\theta)\)</span> be the corresponding odds of a success. Use Monte Carlo simulation (you can discard samples with <span class="math inline">\(\gamma &gt; 100\)</span>) to explore the effects of parameterization on prior choice in this context.</p>
+<ol type="a">
+<li><p>If <span class="math inline">\(\theta\sim\mathrm{Uniform}(0, 1)\)</span>, what is the induced prior on <span class="math inline">\(\gamma\)</span>?</p></li>
+<li><p>If <span class="math inline">\(\theta\sim \mathrm{Beta}(0.5, 0.5)\)</span>, what is the induced prior on ?</p></li>
+<li><p>If <span class="math inline">\(\gamma\sim \mathrm{Uniform}(0, 100)\)</span>, what is the induced prior on <span class="math inline">\(\theta\)</span>?</p></li>
+<li><p>If <span class="math inline">\(\gamma \sim\mathrm{Gamma}(1, 1)\)</span>, what is the induced prior on <span class="math inline">\(\theta\)</span>?</p></li>
+<li><p>Would you say any of these priors are simultaneously uninformative for both <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\gamma\)</span>?<br></p></li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes9" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 9.4: </strong>Proper and improper priors</summary><div>
+<!-- (Reich & Ghosh, Chapter 2, Exercises 12 and 14.) -->
+<p>In this exercise, you examine two models that relate to the normal distribution. In a) we have a case where an improper prior leads to a proper posterior, wheras in b), where the model is a mixture of normal distributions, it is not possible to find any improper prior that still gives a proper posterior.</p>
+<ol type="a">
+<li><p>Say <span class="math inline">\(Y \mid\mu \sim \mathrm{Normal}(\mu, 1)\)</span> and <span class="math inline">\(\mu\)</span> has improper prior <span class="math inline">\(\pi(\mu) = 1\)</span> for all <span class="math inline">\(\mu\)</span>. Prove that the posterior distribution of <span class="math inline">\(\mu\)</span> is a proper PDF.</p></li>
+<li><p>Consider a sample of size <span class="math inline">\(n\)</span> from the mixture of two normal densities given by <span class="math inline">\(f(y\mid\theta) = 0.5\phi(y) + 0.5\phi(y-\theta)\)</span> where <span class="math inline">\(\phi(z)\)</span> denotes the standard normal density function. Show that any improper prior for <span class="math inline">\(\theta\)</span> leads to an improper posterior.</p></li>
+</ol>
+<p><span class="smallgray">see Reich &amp; Ghosh, Chapter 2, Exercises 12 and 14.</span></p>
+</div></details>
+</div>
+<div id="Prob-Bayes10" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 9.5: </strong>Conjugate and Jeffreys’ priors for exponential models</summary><div>
+<!-- (Reich & Ghosh, Chapter 2, Exercises 3 and 16.) -->
+<p>Assume that <span class="math inline">\(Y \mid\lambda\sim\mathrm{Exponential}(\lambda)\)</span>, that is, <span class="math inline">\(Y\mid \lambda\sim\mathrm{Gamma}(1,\lambda)\)</span>, where <span class="math inline">\(\lambda\)</span> is the rate parameter.</p>
+<ol type="a">
+<li><p>Find a <em>conjugate prior</em> distribution for <span class="math inline">\(\lambda\)</span> and derive the resulting posterior distribution.</p></li>
+<li><p>Now consider the <em>Jeffreys’ prior</em> for <span class="math inline">\(\lambda\)</span>.</p>
+<ol type="i">
+<li>Derive and plot the Jeffreys’ prior for <span class="math inline">\(\lambda\)</span>.</li>
+<li>Is this prior proper?</li>
+<li>Derive the posterior and give conditions on <span class="math inline">\(Y\)</span> to ensure it is proper.</li>
+</ol></li>
+</ol>
+<p><span class="smallgray">compare Reich &amp; Ghosh, Chapter 2, Exercises 3 and 16.</span></p>
+</div></details>
+</div>
 
 
 </section>
