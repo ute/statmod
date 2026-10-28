@@ -88,7 +88,7 @@
     "href": "weeks/wk09.html#lecture-material",
     "title": "Week 9: Objective priors and numeric methods",
     "section": "Lecture Material",
-    "text": "Lecture Material\n\nLink to onenotes on Google drive\nCode for R&G, Figure 2.5\nCode for R&G, Figure 3.2\n(evt.) Experiments with AR(1) chains"
+    "text": "Lecture Material\n\nLink to onenotes on Google drive\nCode for R&G, Figure 2.5\nExperiment: impact of reparametrization on prior predictive distribution\nCode for R&G, Figure 3.2\n(evt.) Experiments with AR(1) chains"
   },
   {
     "objectID": "weeks/wk09.html#exercises",
@@ -592,7 +592,7 @@
     "href": "Bayesian/index.html",
     "title": "Bayesian Statistics",
     "section": "",
-    "text": "Supplementary material about Bayesian statistics.\n\nPosterior example R&G Exercise 1.14\nMixed priors: Figure 2.5 (corrected)\n“Bayesian CLT”: Figure 3.2 (corrected)\nNotes on Markov chains\nMarkov chain example\n\n\npreview only, can get updated during the course:\n\nExample for simulating bivariate normal\nListing 3.2 Example for Gibbs sampling\nInteractive exercise: try out the Metropolis Hastings algorithm\nRunning and diagnosing two models in JAGS Example for bad model specification\nFrequentist ridge regression and LASSO: experiments Experiment with a toy example from the lectures\nBayesian model assessment by crossvalidation Example: Crossvalidation in a Poisson polynomial regression"
+    "text": "Supplementary material about Bayesian statistics.\n\nPosterior example R&G Exercise 1.14\nMixed priors: Figure 2.5 (corrected)\nExperiment: impact of reparametrization on prior predictive distribution\n“Bayesian CLT”: Figure 3.2 (corrected)\nNotes on Markov chains\nMarkov chain example\n\n\npreview only, can get updated during the course:\n\nExample for simulating bivariate normal\nListing 3.2 Example for Gibbs sampling\nInteractive exercise: try out the Metropolis Hastings algorithm\nRunning and diagnosing two models in JAGS Example for bad model specification\nFrequentist ridge regression and LASSO: experiments Experiment with a toy example from the lectures\nBayesian model assessment by crossvalidation Example: Crossvalidation in a Poisson polynomial regression"
   },
   {
     "objectID": "Bayesian/MarkovChain-example.html",
@@ -1349,5 +1349,19 @@
     "title": "Week 10: Markov Chain Monte Carlo: the Gibbs sampler",
     "section": "Exercises 10",
     "text": "Exercises 10\ntba"
+  },
+  {
+    "objectID": "Bayesian/Experiment-prior-preditive-distribution.html",
+    "href": "Bayesian/Experiment-prior-preditive-distribution.html",
+    "title": "Prior predictive distribution and reparametrization",
+    "section": "",
+    "text": "We have already seen the posterior predictive distribution in a Bayesian model. This is a mixture of the distributions for \\(Y|\\theta\\), with weights for \\(\\theta\\) taken from the posterior (\\(Y\\): data, here new data, and \\(\\theta\\): the random parameter).\nWhat if we have not made any observations yet? Then we would in the same way define a prior predictive distribution, but take the weights for \\(\\theta\\) from the prior, since we don’t know better.\n\nCan you write down the formula for the prior predictive distribution of \\(Y\\)?\n\nLet us have a look at the prior predictive distribution of exponential distributed data, where we assume that the scale parameter has a uniform distribution on the interval \\([0.01, 0.5]\\). We call the parameter \\(beta\\) in the code.\n\n\n\n\n\n\n👉 Now it’s your turn: \n\nSimulate from the prior predictive distribution with rate parameter uniformly distributed on the corresponding interval.\nCompare the two distributions; you can visually describe the histograms, or even run a qqplot.\nAre the two Bayesian models equivalent?"
+  },
+  {
+    "objectID": "Bayesian/Experiment-prior-preditive-distribution.html#experiment-how-does-reparametrization-affect-the-predictive-distribution-of-my-data",
+    "href": "Bayesian/Experiment-prior-preditive-distribution.html#experiment-how-does-reparametrization-affect-the-predictive-distribution-of-my-data",
+    "title": "Prior predictive distribution and reparametrization",
+    "section": "",
+    "text": "We have already seen the posterior predictive distribution in a Bayesian model. This is a mixture of the distributions for \\(Y|\\theta\\), with weights for \\(\\theta\\) taken from the posterior (\\(Y\\): data, here new data, and \\(\\theta\\): the random parameter).\nWhat if we have not made any observations yet? Then we would in the same way define a prior predictive distribution, but take the weights for \\(\\theta\\) from the prior, since we don’t know better.\n\nCan you write down the formula for the prior predictive distribution of \\(Y\\)?\n\nLet us have a look at the prior predictive distribution of exponential distributed data, where we assume that the scale parameter has a uniform distribution on the interval \\([0.01, 0.5]\\). We call the parameter \\(beta\\) in the code.\n\n\n\n\n\n\n👉 Now it’s your turn: \n\nSimulate from the prior predictive distribution with rate parameter uniformly distributed on the corresponding interval.\nCompare the two distributions; you can visually describe the histograms, or even run a qqplot.\nAre the two Bayesian models equivalent?"
   }
 ]
