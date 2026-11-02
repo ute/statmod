@@ -1,0 +1,60 @@
+# Reich & Ghosh, Listing 3.1
+
+# if you do not have the package cubature":
+# install.packages("cubature")
+library(cubature)
+Y <- c(2.68, 1.18, -0.97, -0.98, -1.03) # Data
+
+# Evaluate the density on the grid for plotting
+m <- 50
+mu <- seq(-4,6,length=m)
+sigma <- seq(0,10,length=m)
+theta <- as.matrix(expand.grid(mu,sigma))
+D <- dnorm(theta[,1],0,100)*dunif(theta[,2],0,10) # Prior
+for(i in 1:length(Y)){ # Likelihood
+   D <- D * dnorm(Y[i],theta[,1],theta[,2])
+}
+W <- matrix(D/sum(D),m,m) 
+# remark from Ute: this is not exactly the posterior, because the results
+# depend on grid spacing (you can see this by changing m) and looking at
+# range(W)
+# correction: divide by product of spacing. 
+# Here the spacing ("delta") for mu and sigma, with m-1 intervals, equidistant
+delta <- c(mu = mu[2]-mu[1], sigma = sigma[2]-sigma[1])
+W <- W / prod(delta)
+
+
+# MAP estimation
+neg_log_post <- function(theta,Y){
+  log_like   <- sum(dnorm(Y,theta[1],theta[2],log=TRUE))
+  log_prior  <- dnorm(theta[1],0,100,log=TRUE)+
+                dunif(theta[2],0,10,log=TRUE)
+return(-log_like-log_prior)}
+# remark: in R, using "return()" is not necessary at the end of a function
+
+inits <- c(mean(Y),sd(Y))
+MAP <- optim(inits,neg_log_post,Y=Y,
+             method = "L-BFGS-B", # Since the prior is bounded
+             lower = c(-Inf,0), upper = c(Inf,10))$par
+
+# Compute the posterior mean
+post    <- function(theta,Y){
+  like  <- prod(dnorm(Y,theta[1],theta[2]))
+  prior <- dnorm(theta[1],0,100)*dunif(theta[2],0,10)
+return(like*prior)}
+
+g0 <- function(theta,Y){post(theta,Y)}
+g1 <- function(theta,Y){theta[1]*post(theta,Y)}
+g2 <- function(theta,Y){theta[2]*post(theta,Y)}
+m0 <- adaptIntegrate(g0,c(-5,0.01),c(5,5),Y=Y)$int #constant m(Y)
+m1 <- adaptIntegrate(g1,c(-5,0.01),c(5,5),Y=Y)$int
+m2 <- adaptIntegrate(g2,c(-5,0.01),c(5,5),Y=Y)$int
+pm <- c(m1,m2)/m0
+
+# Make the plot
+image(mu, sigma, W, col=gray.colors(20,1,0),
+      xlab=expression(mu), ylab=expression(sigma))
+points(theta,cex=0.1,pch=19)
+points(pm[1],pm[2],pch=19,cex=1.5)
+points(MAP[1],MAP[2],col="white",cex=1.5,pch=19)
+box()
