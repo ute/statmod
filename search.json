@@ -592,7 +592,7 @@
     "href": "Bayesian/index.html",
     "title": "Bayesian Statistics",
     "section": "",
-    "text": "Supplementary material about Bayesian statistics.\n\nPosterior example R&G Exercise 1.14\nMixed priors: Figure 2.5 (corrected)\nExperiment: impact of reparametrization on prior predictive distribution\n“Bayesian CLT”: Figure 3.2 (corrected)\nNotes on Markov chains\nMarkov chain example\n\n\npreview only, can get updated during the course:\n\nExample for simulating bivariate normal\nListing 3.2 Example for Gibbs sampling\nInteractive exercise: try out the Metropolis Hastings algorithm\nRunning and diagnosing two models in JAGS Example for bad model specification\nFrequentist ridge regression and LASSO: experiments Experiment with a toy example from the lectures\nBayesian model assessment by crossvalidation Example: Crossvalidation in a Poisson polynomial regression"
+    "text": "Supplementary material about Bayesian statistics.\n\nPosterior example R&G Exercise 1.14\nMixed priors: Figure 2.5 (corrected)\nExperiment: impact of reparametrization on prior predictive distribution\n“Bayesian CLT”: Figure 3.2 (corrected)\nNotes on Markov chains\nMarkov chain example\nExample for simulating bivariate normal\nListing 3.2 Example for Gibbs sampling\nInteractive exercise: try out the Metropolis Hastings algorithm\n\n\npreview only, can get updated during the course:\n\nRunning and diagnosing two models in JAGS Example for bad model specification\nFrequentist ridge regression and LASSO: experiments Experiment with a toy example from the lectures\nBayesian model assessment by crossvalidation Example: Crossvalidation in a Poisson polynomial regression"
   },
   {
     "objectID": "Bayesian/MarkovChain-example.html",
