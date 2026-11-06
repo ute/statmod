@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 11: Using rjags for MCMC, diagnosing convergence – StatMod Interactive Supplementary</title>
+<title>Week 11: Metropols-Hastings algorithm, rjags, diagnosing convergence – StatMod Interactive Supplementary</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -78,13 +113,13 @@ ul.task-list li input[type="checkbox"] {
 <style> .MathJax {font-size: 103% !important; } </style> 
 <script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
 <style>
-.Exercise {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
 .Hint {
   --color1: #93bf89;
   --color2: #7c9f75;
+}
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
 }
 </style>
 
@@ -298,7 +333,7 @@ window.Quarto = {
   <li><a href="#relevant-readings" id="toc-relevant-readings" class="nav-link active" data-scroll-target="#relevant-readings">Relevant Readings</a></li>
   <li><a href="#install-jags" id="toc-install-jags" class="nav-link" data-scroll-target="#install-jags">Install JAGS</a></li>
   <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link" data-scroll-target="#lecture-material">Lecture Material</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#exercises-11" id="toc-exercises-11" class="nav-link" data-scroll-target="#exercises-11">Exercises 11</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="wk11.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -309,7 +344,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 11: Using rjags for MCMC, diagnosing convergence</h1>
+<h1 class="title">Week 11: Metropols-Hastings algorithm, rjags, diagnosing convergence</h1>
 </div>
 
 
@@ -333,9 +368,6 @@ window.Quarto = {
 <p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
 </div>
 <div class="hidden">
-<p>comments</p>
-</div>
-<div class="hidden">
 <p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -354,7 +386,7 @@ window.Quarto = {
 </div>
 <p>In the Wednesday lecture, we introduce the <em>Metropolis-Hastings-algorithm</em> (“MH”). We start with the general principle and an example for its implementation. The algorithm has an interesting history; if time allows, we will also touch upon that. Then we discuss variants of MH-sampling: we will see that using a symmetric proposal density makes calculations a bit simpler. One can also combine Gibbs sampling with MH, which is important in Bayesian analysis for multivariate parameters, when the priors are not conjugate to the likelihood.</p>
 <p>All these algorithms can be used ``out of the box’’; there are various software options. You will learn to use the software JAGS for Bayesian data analysis. To this end, you need to describe your model in a well defined way; I will discuss the general structure of JAGS model descriptions and we look at a few examples. You can download the <a href="https://ute.github.io/statmod/assets/papers/jags_user_manual.pdf">JAGS user manual here</a> and on brightspace.</p>
-<p>Finally, we look at statistics that help to assess if the Markov chains have converged and are mixing well: <em>trace plots</em>, the <em>Geweke</em> and <em>Gelman statistics</em>. The <em>effective sample size</em> tells us how much information we get out of a long Markov chain as compared to independent sampling. This is usually less, due to autocorrelation. We will discuss points to consider if we want to improve convergence speed and decrease autocorrelation (R&amp;G, Section 3.4.2, 3.4.3).</p>
+<p>If time allows, we look at statistics that help to assess if the Markov chains have converged and are mixing well: <em>trace plots</em>, the <em>Geweke</em> and <em>Gelman statistics</em>. The <em>effective sample size</em> tells us how much information we get out of a long Markov chain as compared to independent sampling. This is usually less, due to autocorrelation. We will discuss points to consider if we want to improve convergence speed and decrease autocorrelation (R&amp;G, Section 3.4.2, 3.4.3).</p>
 <section id="relevant-readings" class="level2">
 <h2 class="anchored" data-anchor-id="relevant-readings">Relevant Readings</h2>
 <ul class="task-list">
@@ -377,12 +409,86 @@ window.Quarto = {
 <iframe src="https://drive.google.com/embeddedfolderview?id=1LBJ_VhGmFvk_dATMf-T3Mnqwj0yZPDiK
 #list" width="100%" frameborder="0"></iframe>  -->
 </section>
-<section id="exercises" class="level2" data-numberprefix="11">
-<h2 data-numberprefix="11" class="anchored" data-anchor-id="exercises">Exercises</h2>
-<p>tba</p>
+<section id="exercises-11" class="level2" data-numberprefix="11">
+<h2 data-numberprefix="11" class="anchored" data-anchor-id="exercises-11">Exercises 11</h2>
 <div class="hidden">
 <!-- TODO Eine aufgabe weniger -->
 </div>
+<div id="Prob-Bayes16" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 11.1: </strong>A model for new species discoveries (Metropolis-Hastings sampling)</summary><div>
+<p>As discussed in Reich &amp; Ghosh, Section 1.6, authors Edie, Smits and Jablonski (2017, reference 24 in R&amp;G) report that the number of marine bivalve species discovered each year from 2010-2015 was <span class="math inline">\(64, 13, 33, 18, 30\)</span> and <span class="math inline">\(20\)</span>.</p>
+<p>Denote <span class="math inline">\(Y_t\)</span> as the number of species discovered in year <span class="math inline">\(2009+t\)</span> (so that <span class="math inline">\(Y_1 = 64\)</span> is the count for 2010).<br>
+Consider the following model for these data: <span class="math display">\[
+  Y_t\mid\alpha,\beta \stackrel{\text{indep}}{\sim}\mathrm{Poisson}(\lambda_t),
+\]</span> where <span class="math inline">\(\lambda_t = \exp(\alpha + \beta t)\)</span> and <span class="math inline">\(\alpha, \beta\stackrel{\text{indep}}{\sim}\mathrm{Normal}(0, 10^2)\)</span>.</p>
+<ol type="a">
+<li><p>Use JAGS to fit the model. Summarize the posterior of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> and verify that the MCMC sampler has converged. Does this analysis provide evidence that the rate of discovery is changing over time?</p></li>
+<li><p>Write your own Metropolis sampler (i.e., not JAGS). Comment your code, report your candidate distribution for each parameters and corresponding acceptance ratio, and use trace plots for each parameter to show the chains have converged.</p></li>
+</ol>
+<p><span class="smallgray">see Reich &amp; Ghosh, Chapter 3, Exercises 10 and 11.</span></p>
+</div></details>
+</div>
+<div id="Prob-Bayes17" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 11.2: </strong>Bayesian analysis of galaxies</summary><div>
+<p><span class="smallgray">see Reich &amp; Ghosh, Chapter 3, Exercise 7.</span></p>
+<p>Open and plot the galaxies data in R using the code below,</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(galaxies)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>?galaxies</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> galaxies</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(Y)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Y, <span class="at">breaks=</span><span class="dv">25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Model the observations <span class="math inline">\(Y_1,\dots,Y_{82}\)</span> using the Student-t distribution with location <span class="math inline">\(\mu\)</span>, scale <span class="math inline">\(\sigma\)</span> and degrees of freedom <span class="math inline">\(k\)</span>.</p>
+<p>🤔 What is this distribution? Here we mean that <span class="math inline">\(Y= \sigma\cdot Z + \mu\)</span>, where <span class="math inline">\(Z\)</span> has a standard Student-t distribution with <span class="math inline">\(k\)</span> degrees of freedom.</p>
+<p>Assume prior distributions <span class="math inline">\({\mu\sim\mathrm{Normal}(0, 10000^2)}\)</span>, <span class="math inline">\({1/\sigma^2=\tau\sim\mathrm{Gamma}(0.01, 0.01)}\)</span> and <span class="math inline">\({k\sim\mathrm{Uniform}(1, 30)}\)</span>.</p>
+<ol type="a">
+<li>Give reasonable initial values for each of the three parameters.</li>
+<li>Fit the model using JAGS. Report trace plots of each parameter and discuss convergence.</li>
+<li>Graphically compare the t distribution with parameters set to their posterior mean with the observed data. Does the model fit the data well?</li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes18" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 11.3: </strong>MCMC for Bayesian analysis of shifted exponential variables</summary><div>
+<p><span class="smallgray">see Reich &amp; Ghosh, Chapter 3, Exercise 14.</span></p>
+<p>Let <span class="math inline">\(Y_1,\dots, Y_n\)</span> be a random sample from a shifted exponential distribution with density <span class="math display">\[
+f(y\mid \alpha, \beta)=\begin{cases}
+\beta\exp(-\beta(y-\alpha)),\quad &amp;y\geq \alpha\\
+0 &amp; y &lt; \alpha
+\end{cases}
+\]</span> where <span class="math inline">\(\alpha &gt; 0\)</span> and <span class="math inline">\(\beta &gt; 0\)</span> are the parameters of interest. Assume prior distributions <span class="math inline">\(\alpha\sim\mathrm{Uniform}(0, c)\)</span> and <span class="math inline">\(\beta\sim \mathrm{Gamma}(a, b)\)</span>.</p>
+<ol type="a">
+<li><p>Plot <span class="math inline">\(f(y\mid \alpha, \beta)\)</span> for <span class="math inline">\(\alpha = 2\)</span> and <span class="math inline">\(\beta = 3\)</span> and <span class="math inline">\(y \in [0, 5]\)</span>, give interpretations of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, and describe a real experiment where this model might be appropriate.</p></li>
+<li><p>Give the full conditional distributions of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> and determine if they are members of a common family of distributions.</p></li>
+<li><p>Write pseudo code for an MCMC sampler including initial values, full details of each sampling step, and how you plan to assess convergence.</p></li>
+</ol>
+<p>If you have time, also implement your MCMC sampler, and check if it gives reasonable results.</p>
+</div></details>
+</div>
+<div id="Prob-Bayes19" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 11.4: </strong>Short discussion and comparison of numerical methods</summary><div>
+<p>Give an advantage and a disadvantage of the following methods:</p>
+<ol type="a">
+<li>Maximum a posteriori estimation</li>
+<li>Numerical integration</li>
+<li>Bayesian central limit theorem</li>
+<li>Gibbs sampling</li>
+<li>Metropolis-Hastings sampling</li>
+</ol>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 3, Exercise 1.</span></p>
+</div></details>
+</div>
+<div id="Prob-Bayes20" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 11.5: </strong>Compare your own Gibbs sampler results to JAGS output</summary><div>
+<p>In <a href="https://ute.github.io/statmod/weeks/wk10.html#Prob-Bayes13">Exercises 10.3 and 10.4</a>, you were asked to code a Gibbs sampler “by hand”. If you discussed (at least one of) these exericses in class, try to redo the calculations with JAGS, and compare your results with the output you get.</p>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 3, Exercises 4(e) and/or 5(d)</span></p>
+</div></details>
+</div>
+<p>Problems 11.1, 11.2 and 11.5 include hands on calculations with JAGS. Feel encouraged to try at least one of them :-)</p>
+
+
 </section>
 
 </main> <!-- /main -->
