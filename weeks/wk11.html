@@ -113,13 +113,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <style> .MathJax {font-size: 103% !important; } </style> 
 <script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
 <style>
-.Exercise {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
 .Hint {
   --color1: #93bf89;
   --color2: #7c9f75;
+}
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
 }
 </style>
 
@@ -369,20 +369,6 @@ window.Quarto = {
 </div>
 <div class="hidden">
 <p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Extended lectures on Wednesday
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Wednesday in this week 11 (November 12th), we will again have longer of lectures, that is from 14-17.</p>
-<p>This is to make up for the fact that there were no lectures on Wednesday, November 5th (course week 10).</p>
-</div>
 </div>
 <p>In the Wednesday lecture, we introduce the <em>Metropolis-Hastings-algorithm</em> (“MH”). We start with the general principle and an example for its implementation. The algorithm has an interesting history; if time allows, we will also touch upon that. Then we discuss variants of MH-sampling: we will see that using a symmetric proposal density makes calculations a bit simpler. One can also combine Gibbs sampling with MH, which is important in Bayesian analysis for multivariate parameters, when the priors are not conjugate to the likelihood.</p>
 <p>All these algorithms can be used ``out of the box’’; there are various software options. You will learn to use the software JAGS for Bayesian data analysis. To this end, you need to describe your model in a well defined way; I will discuss the general structure of JAGS model descriptions and we look at a few examples. You can download the <a href="https://ute.github.io/statmod/assets/papers/jags_user_manual.pdf">JAGS user manual here</a> and on brightspace.</p>
