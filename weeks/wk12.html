@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -297,7 +332,7 @@ window.Quarto = {
   <ul>
   <li><a href="#relevant-readings" id="toc-relevant-readings" class="nav-link active" data-scroll-target="#relevant-readings">Relevant Readings</a></li>
   <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link" data-scroll-target="#lecture-material">Lecture Material</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#exercises-12" id="toc-exercises-12" class="nav-link" data-scroll-target="#exercises-12">Exercises 12</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="wk12.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -325,9 +360,6 @@ window.Quarto = {
 </header>
 
 
-<div class="hidden">
-<p>comments</p>
-</div>
 <div class="hidden">
 
 </div>
@@ -374,12 +406,135 @@ Exercise classes start in course week 2. Problems for the relevant exercise clas
 Next week you will work on Exercises 1.
 -->
 </section>
-<section id="exercises" class="level2" data-numberprefix="12">
-<h2 data-numberprefix="12" class="anchored" data-anchor-id="exercises">Exercises</h2>
-<p>tba</p>
+<section id="exercises-12" class="level2" data-numberprefix="12">
+<h2 data-numberprefix="12" class="anchored" data-anchor-id="exercises-12">Exercises 12</h2>
+<p>I recommend to do at least one of the three data analysis problems 12.1, 12.2 or 12.3:</p>
+<div id="Prob-Bayes23" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 12.1: </strong>Data analysis: comparison of two groups</summary><div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 4, Exercise 1.</span></p>
+<p>A clinical trial gave six subjects a placebo and six subjects a new weight loss medication. The response variable is the change in weight (pounds) from baseline (so <span class="math inline">\(-2.0\)</span> means the subject lost 2 pounds). The data for the 12 subjects are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Placebo</th>
+<th style="text-align: center;">Treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">-3.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">-3.1</td>
+<td style="text-align: center;">-1.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">-1.0</td>
+<td style="text-align: center;">-4.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.2</td>
+<td style="text-align: center;">-0.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">-5.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.4</td>
+<td style="text-align: center;">0.1</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Conduct a Bayesian analysis to compare the means of these two groups. Would you say the treatment is effective? Is your conclusion sensitive to the prior?</p></li>
+<li><p>Do a corresponding frequentist analysis for comparison. Give reasons for your model choice.<br>
+Good to know: the <span class="math inline">\(t\)</span>-test is quite robust against violation of the normality assumption, at least when sample size is not very small.</p></li>
+</ol>
+</div></details>
+</div>
+<div id="Prob-Bayes24" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 12.2: </strong>Bayesian LASSO for Boston homes</summary><div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 4, Exercise 2.</span></p>
+<p>Load the classic Boston Housing Data in R:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Boston)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>?Boston</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The response variable is <code>medv</code>, the median value of owner-occupied homes (in $1, 000s), and the other 13 variables are covariates that describe the neighborhood.</p>
+<ol type="a">
+<li><p>Fit a Bayesian linear regression model with uninformative Gaussian priors for the regression coefficients. Verify the MCMC sampler has converged, and summarize the posterior distribution of all regression coefficients.</p></li>
+<li><p>Perform a classic least squares analysis (e.g., using the <code>lm</code> function in R). Compare the results numerically and conceptually with the Bayesian results.</p></li>
+<li><p>Refit the Bayesian model with double exponential priors for the regression coefficients, and discuss how the results differ from the analysis with uninformative priors.</p></li>
+<li><p>Fit a Bayesian linear regression model in (a) using only the first 500 observations and compute the posterior predictive distribution for the final 6 observations. Plot the posterior predictive distribution versus the actual value for these 6 observations and comment on whether the predictions are reasonable.</p></li>
+</ol>
+<p>Before you do the analysis, you may want to read the documentation of the dataset, and speculate what influence the variables will have on home prices.</p>
+</div></details>
+</div>
+<div id="Prob-Bayes25" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 12.3: </strong>US gun control and homicides: Poisson and Negative Binomial regression</summary><div>
 <div class="hidden">
-<!-- TODO Eine aufgabe weniger -->
-<p>Aufgabe 21 zuletzt, som ugens nød</p>
+<!-- 2022 week 13, anscheinend nicht gemacht -->
+</div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 4, Exercise 4.</span></p>
+<p>👉 To understand this exercise, please read the data description on page 155, R&amp;G.</p>
+<p>Download the US gun control data <a href="https://ute.github.io/statmod/assets/data/guns.RData">here</a> or on the <a href="https://drive.google.com/drive/folders/19d8DwZCQ2WfhG1BzAXReNuYQFbBzTVtg"><code>data</code> folder on Google Drive</a>, see more in the hint below. These data are taken from the cross-sectional study by Kalesan et al (2016) (reference [47] in R&amp;G).</p>
+<p>For state <span class="math inline">\(i\)</span>, let <span class="math inline">\(Y_i\)</span> be the number of homicides and <span class="math inline">\(N_i\)</span> be the population.</p>
+<ol type="a">
+<li><p>Fit the model <span class="math inline">\(Y_i\mid \beta\sim\mathrm{Poisson}(N_i\lambda_i)\)</span> where <span class="math inline">\(\log(\lambda_i)=\boldsymbol{X}_i\boldsymbol{\beta}\)</span>. Use uninformative priors and <span class="math inline">\(p=7\)</span> covariates in <span class="math inline">\(\boldsymbol{X}_i\)</span>: the intecept, the five confounders <span class="math inline">\(\boldsymbol{Z}_i\)</span>, and the total number of gun laws in state <span class="math inline">\(i\)</span>. Provide justification that the MCMC sampler has converged and sufficiently explored the posterior distribution, and summarize the posterior of <span class="math inline">\(\beta\)</span>. Also discuss why the five variables to be included in the analysis are potential confounders.</p></li>
+<li><p>Fit a negative binomial regression model and compare with the results from Poisson regression.</p></li>
+<li><p>Refit the Bayesian model with double exponential priors for the regression coefficients, and discuss how the results differ from the analysis with uninformative priors.</p></li>
+<li><p>Fit a Bayesian linear regression model in (a) using only the first 500 observations and compute the posterior predictive distribution for the final 6 observations. Plot the posterior predictive distribution versus the actual value for these 6 observations and comment on whether the predictions are reasonable.</p></li>
+</ol>
+<div id="cnb-4-Hint" class="Hint" data-label="Hints" data-_nested="Prob-Bayes25">
+<details class="Hint fobx-default closebutton"><summary><strong>Hints</strong></summary><div>
+<p>When you download the data, you will get a file <code>guns.RData</code>. To include the information in your R environment, run <code>load("guns.RData")</code>, or in RStudio, just click on the file. You will then get vectors <code>Y</code> and <code>N</code>, and matrices <code>Z</code> and <code>X</code>. Matrix <code>X</code> containes indicator variables for each of the 25 gun laws per state, so you have to calculate the total number of laws for each state yourself :-).</p>
+<p><strong>JAGS hint:</strong> since <span class="math inline">\(\lambda_i\)</span> in the model stands for a rate, you would need to multiply it with the number <span class="math inline">\(N_i\)</span> in the likelihood part of the model specification code (but not in the link function). If you use Listing 4.7, replace <code>lambda[i]</code> by <code>N[i]*lambda[i]</code> in lines 18 and 26.</p>
+</div></details>
+</div>
+</div></details>
+</div>
+<p>The next problem illustrates the concept of effective sample size on the AR(1) chain from Exercise 10.5:</p>
+<div id="Prob-Bayes22" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 12.4: </strong>Effective sample size</summary><div>
+<p>This small exercise extends Exercise 5 from Weekly Notice 10, and asks for your creativity:</p>
+<p>Explain and illustrate the concept of effective sample size using simulation of AR(1) chains.</p>
+<p>You could show that for the AR(1) chain<br>
+<span class="math display">\[
+\begin{aligned}
+X_{n} &amp;= \phi X_{n-1} + \lambda + \tau Z_n, \quad n=1, 2, \dots,
+\\ &amp;\qquad -1&lt;\phi&lt;1, \ \lambda\in \mathbb{R},\  \tau &gt;0, \quad Z_1,Z_2,\dots\stackrel{\text{i.i.d.}}{\sim }N(0, 1)
+\end{aligned}
+\]</span> the “Time-series ESS” given as equation (3.20) in Reich and Ghosh is equal to <span class="math display">\[
+    ESS = S\cdot\frac{1-\phi}{1+\phi},
+\]</span> and / or confirm this result by simulation. You will notice that the variance predicted using this effective sample size holds not well for small values of <span class="math inline">\(S\)</span>, due to the simplifications in the formula. It also depends on how close <span class="math inline">\(|\phi|\)</span> is to zero.</p>
+<p>Find code for simulation of AR(1) chains <a href="https://ute.github.io/statmod/Bayesian/MarkovChain-example.html">here in the course supplementary</a>.</p>
+</div></details>
+</div>
+<p>And here is an experiment in JAGS that illustrates convergence problems (ugens nød?)</p>
+<div id="Prob-Bayes21" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 12.5: </strong>MCMC convergence in an overly complicated model</summary><div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 3, Exercise 17.</span></p>
+<p>Consider the (overly complicated) model <span class="math display">\[
+Y_{i}\mid\mu_{i},\sigma_i^2 \sim \mathrm{Normal}(\mu_i,\sigma^2_i)
+\]</span> where <span class="math display">\[
+\begin{aligned}
+\mu_i&amp;\stackrel{\text{i.i.d.}}{\sim }\mathrm{Normal}(0,\theta_1^{-1}),
+\\\sigma^2_i&amp;\stackrel{\text{i.i.d.}}{\sim }\mathrm{InvGamma}(\theta_2,\theta_3)\ \text{and}
+\\\theta_j&amp;~\sim\,\mathrm{Gamma}(\epsilon,\epsilon)\ \text{for }j=1,2,3.
+\end{aligned}
+\]</span></p>
+<p>Assume that the data are <span class="math inline">\(Y_i=i\)</span> for <span class="math inline">\(i=1,\dots,n\)</span></p>
+<ol type="a">
+<li>Describe why convergence may be slow for this model.</li>
+<li>Fit the model in JAGS with all four combinations of <span class="math inline">\(n\in\{5,25\}\)</span> and <span class="math inline">\({\epsilon\in\{0.1, 10\}}\)</span> and report the effective sample size for <span class="math inline">\(\theta_1, \theta_2\)</span> and <span class="math inline">\(\theta_3\)</span> for all four fits.</li>
+</ol>
+<ol start="3" type="a">
+<li>Comment on the effect of <span class="math inline">\(n\)</span> and <span class="math inline">\(\epsilon\)</span> on convergence.</li>
+</ol>
+</div></details>
 </div>
 
 
