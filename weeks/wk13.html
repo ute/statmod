@@ -78,13 +78,13 @@ ul.task-list li input[type="checkbox"] {
 <style> .MathJax {font-size: 103% !important; } </style> 
 <script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
 <style>
-.Exercise {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
 .Hint {
   --color1: #93bf89;
   --color2: #7c9f75;
+}
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
 }
 </style>
 
@@ -297,7 +297,7 @@ window.Quarto = {
   <ul>
   <li><a href="#relevant-readings" id="toc-relevant-readings" class="nav-link active" data-scroll-target="#relevant-readings">Relevant Readings</a></li>
   <li><a href="#lecture-material" id="toc-lecture-material" class="nav-link" data-scroll-target="#lecture-material">Lecture Material</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#exercises-13" id="toc-exercises-13" class="nav-link" data-scroll-target="#exercises-13">Exercises 13</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="wk13.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -325,9 +325,6 @@ window.Quarto = {
 </header>
 
 
-<div class="hidden">
-<p>comments</p>
-</div>
 <div class="hidden">
 <p>Tricking MathJax with invisible <span class="math inline">\(a^2+b^2\)</span></p>
 </div>
@@ -366,8 +363,98 @@ There are three lectures this week. Exercises start next week.
 <iframe src="https://drive.google.com/embeddedfolderview?id=1dHcO480YEcvemKS64Lv-gd4DLfd2k9rm
 #list" width="100%" frameborder="0"></iframe>  -->
 </section>
-<section id="exercises" class="level2" data-numberprefix="13">
-<h2 data-numberprefix="13" class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="exercises-13" class="level2" data-numberprefix="13">
+<h2 data-numberprefix="13" class="anchored" data-anchor-id="exercises-13">Exercises 13</h2>
+<div id="Prob-Bayes26" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 13.1: </strong>Air quality and cross validation</summary><div>
+<p>Inspect the <code>airquality</code> dataset in R (it is contained in base R). Read about its background.</p>
+<p>We consider the following two models for ozone pollution: <span class="math display">\[
+\begin{aligned}
+\mathcal{M}_1: &amp;\quad\mathrm{ozone}_i \sim \mathrm{Normal}(\beta_1 + \beta_2 \mathrm{solar.R}_i, \sigma^2)\\
+\mathcal{M}_2: &amp;\quad\mathrm{ozone}_i \sim \mathrm{Normal}(\beta_1 + \beta_2 \mathrm{solar.R}_i +\beta_3 \mathrm{temp}_i+\beta_4 \mathrm{wind}_i, \sigma^2)
+\end{aligned}
+\]</span></p>
+<ol type="a">
+<li><p>Compare the two models using 5-fold cross validation. Specify and justify the priors you select for both models.</p></li>
+<li><p>Fit model <span class="math inline">\(\mathcal{M}_2\)</span> to the data, and use posterior predictive checks to verify that the model fits well. If you find model misspecification, suggest (but do not fit) alternatives.</p></li>
+</ol>
+<p><strong>Remark:</strong> Exclude rows with missing data from this data frame before analysis - you can conveniently achieve this with function <code>na.omit</code>.</p>
+<p><span class="smallgray">see Reich &amp; Ghosh, Chapter 5, Exercises 1 and 2 (there is a typo in model <span class="math inline">\(\mathcal{M}_2\)</span>)</span></p>
+</div></details>
+</div>
+<div id="Prob-Bayes27" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 13.2: </strong>Bayes factors and information criteria</summary><div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 5, Exercise 4.</span></p>
+<p>Use the “Mr.&nbsp;October” data (described in Section 2.4, Reich and Ghosh) <span class="math inline">\(Y_1 = 563\)</span>, <span class="math inline">\(N_1 = 2820\)</span>, <span class="math inline">\(Y_2 = 10\)</span>, and <span class="math inline">\(N_2 = 27\)</span>.</p>
+<p>Compare the two models: <span class="math display">\[
+\begin{aligned}
+\mathcal{M}_1: &amp; Y_1\mid\lambda_1 \sim \mathrm{Poisson}(N_1\lambda_1) \text{ and }  Y_2\mid\lambda_2 \sim \mathrm{Poisson}(N_2\lambda_2),
+\\\mathcal{M}_2: &amp; Y_1\mid\lambda_0 \sim \mathrm{Poisson}(N_1\lambda_0) \text{ and }  Y_2\mid\lambda_0 \sim \mathrm{Poisson}(N_2\lambda_0),
+\end{aligned}
+\]</span> using Bayes factors, <em>DIC</em> and <em>WAIC</em>. Assume the <span class="math inline">\(\mathrm{Uniform}(0,c)\)</span> prior for all <span class="math inline">\(\lambda_j\)</span> and compare the results for <span class="math inline">\(c = 1\)</span> and <span class="math inline">\(c = 10\)</span>.</p>
+<div id="cnb-3-Hint" class="Hint" data-label="Hints" data-_nested="Prob-Bayes27">
+<details class="Hint fobx-default closebutton"><summary><strong>Hints</strong></summary><div>
+<ul>
+<li>The “Mr October” data are explained in R&amp;G, Chapter 2, Exercise 2.</li>
+<li>You will realize that there is not much difference in the results for <span class="math inline">\(c=1\)</span> and <span class="math inline">\(c=10\)</span>. You can try with smaller values of <span class="math inline">\(c\)</span> - what would that mean? Does it make sense?</li>
+<li>I have uploaded some code on Google drive (<a href="https://drive.google.com/drive/folders/1Mq7js8EhN7aBGGKAYpBIXIA8joR7y0Pj?usp=sharing" target="_blank">week 13</a>). If you use it, you save a lot of time. Please spend that time on thinking more about this example:
+<ul>
+<li>why is the answer so stable when you use <span class="math inline">\(c=1\)</span>, <span class="math inline">\(c=10\)</span>, or even <span class="math inline">\(c=100\)</span>?</li>
+<li>can you describe the posterior distribution of the parameter theoretically, without using MCMC? <br></li>
+</ul></li>
+</ul>
+</div></details>
+</div>
+</div></details>
+</div>
+<p>The next exercise extends Problem 12.2:</p>
+<div id="Prob-Bayes28" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 13.3: </strong>Selecting a model for house prices</summary><div>
+<p><span class="smallgray">Reich &amp; Ghosh, Chapter 5, Exercise 9.</span></p>
+<p>Download the Boston Housing Data in R from the Boston dataset (you can do this by <code>library(MASS); data(Boston)</code>). The response is <code>medv</code>, the median value of owner-occupied homes, and the other 13 variables are covariates that describe the neighborhood.</p>
+<p>Use stochastic search variable selection (SSVS) to compute the most likely subset of the 13 covariates to include in the model and the marginal probability that each variable is included in the model. Clearly describe the model you fit including all prior distributions.</p>
+</div></details>
+</div>
+<div id="Prob-Bayes29" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 13.4: </strong>A model for NBA data, and posterior checks</summary><div>
+<p><span class="smallgray">cf Reich &amp; Ghosh, Chapter 5, Exercises 7 + 8.</span> </p>
+<p>For the NBA free throw data described in Reich &amp; Ghosh, Section 1.6, Exercise 17, assume that for player <span class="math inline">\(i\)</span>, the number <span class="math inline">\(Y_i\)</span> of clutch makes is distributed as <span class="math inline">\({Y_i\mid p_i \sim\mathrm{Binomial}(n_i, p_i)}\)</span>, where <span class="math inline">\(n_i\)</span> is the number of clutch attempts, and <span class="math inline">\(p_i\)</span> is the clutch make probability. Compute the posterior probabilities of the models:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{M}_1 :&amp; \mathrm{logit}(p_i)=\beta_1 + \mathrm{logit}(q_i)
+\\
+\mathcal{M}_2 :&amp; \mathrm{logit}(p_i)=\beta_1 + \beta_2\mathrm{logit}(q_i),
+\end{aligned}
+\]</span> where <span class="math inline">\(q_i\)</span> is the overall free throw percentage of player <span class="math inline">\(i\)</span>.</p>
+<ol type="a">
+<li><p>Specify the priors you use for the models’ parameters and discuss whether the results are sensitive to the prior.</p></li>
+<li><p>Fit model <span class="math inline">\(\mathcal{M}_2\)</span> to the NBA data and use posterior predictive checks to verify the model fits well. If you find model misspecification, suggest (but do not fit) alternatives.</p></li>
+</ol>
+<p>You can find the data as file <code>NBA-clutches.csv</code> in the <a href="https://drive.google.com/drive/folders/19d8DwZCQ2WfhG1BzAXReNuYQFbBzTVtg"><code>data</code> folder on Google Drive</a> or <a href="https://ute.github.io/statmod/assets/data/NBA-clutches.csv">download it here</a></p>
+</div></details>
+</div>
+<div id="Prob-Bayes30" class="Exercise">
+<details class="Exercise fobx-default closebutton"><summary><strong>Problem 13.5: </strong>MAP in linear models and their frequentist counterparts</summary><div>
+<p>Consider a linear normal model</p>
+<!-- %$\boldsymbol{Y}\sim \mathrm{N}(\boldsymbol{X\beta},\sigma^2\boldsymbol{I}_n)$.  -->
+<p><span class="math display">\[Y_i\sim \mathrm{Normal}(\sum_{j=1}^p{x_{ij}\beta_j}, \sigma^2)\]</span></p>
+<p>where the <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(i=1,\dots n\)</span> are independent, as usual. We assume independent priors for the coefficients <span class="math inline">\(\beta_1,\dots, \beta_p\)</span> and for <span class="math inline">\(\sigma\)</span>, and for sake of simplicity, that the prior is the same for <span class="math inline">\(\beta_1,\beta_2,\dots\)</span> and <span class="math inline">\(\beta_p\)</span>.</p>
+<p>Show that the maximum a posteriori estimate for <span class="math inline">\(\boldsymbol{\beta}=(\beta_1,\dots,\beta_p)\)</span> minimizes the following (penalized) residual sums of squares, depending on the prior:</p>
+<p><span class="math display">\[
+   \hat{\boldsymbol{\beta}}_{\mathrm{MAP}} = {\mathrm{argmin}}_{\boldsymbol{\beta}}
+   \begin{cases}
+     \|\boldsymbol{Y}-\boldsymbol{X\beta}\|^2,
+    &amp;\pi(\boldsymbol{\beta}) =\mathrm{Jeffreys'\ prior},\\
+    \|\boldsymbol{Y}-\boldsymbol{X\beta}\|^2-\lambda\sum_{j=1}^p\beta_j^2,
+    &amp;\pi(\boldsymbol{\beta}) =\mathrm{Gaussian\ prior },\\
+    \|\boldsymbol{Y}-\boldsymbol{X\beta}\|^2-\lambda\sum_{j=1}^p|\beta_j|,
+    &amp;\pi(\boldsymbol{\beta}) =\mathrm{double\ exponential\ prior}.
+   \end{cases}
+\]</span></p>
+<p>For the Gaussian prior, let <span class="math inline">\(\beta_j\sim \mathrm{Normal}(0,\tau^2)\)</span>, and for the double exponential prior, let <span class="math inline">\(\pi{(\beta_j)}=\frac{\gamma}{2}\exp(-\gamma |\beta_j|)\)</span>.</p>
+<p>In these two cases, express <span class="math inline">\(\lambda\)</span> in terms of the prior’s hyperparameters (<span class="math inline">\(\tau^2\)</span> and <span class="math inline">\(\gamma\)</span>, respectively). <br></p>
+</div></details>
+</div>
 
 
 </section>
