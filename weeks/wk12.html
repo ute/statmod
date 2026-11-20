@@ -113,13 +113,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <style> .MathJax {font-size: 103% !important; } </style> 
 <script> MathJax = { output: { font: 'mathjax-asana' } }; </script>
 <style>
-.Exercise {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
 .Hint {
   --color1: #93bf89;
   --color2: #7c9f75;
+}
+.Exercise {
+  --color1: #c0c0c0;
+  --color2: #808080;
 }
 </style>
 
@@ -480,7 +480,7 @@ Good to know: the <span class="math inline">\(t\)</span>-test is quite robust ag
 </div>
 <p><span class="smallgray">Reich &amp; Ghosh, Chapter 4, Exercise 4.</span></p>
 <p>👉 To understand this exercise, please read the data description on page 155, R&amp;G.</p>
-<p>Download the US gun control data <a href="https://ute.github.io/statmod/assets/data/guns.RData">here</a> or on the <a href="https://drive.google.com/drive/folders/19d8DwZCQ2WfhG1BzAXReNuYQFbBzTVtg"><code>data</code> folder on Google Drive</a>, see more in the hint below. These data are taken from the cross-sectional study by Kalesan et al (2016) (reference [47] in R&amp;G).</p>
+<p>Download the US gun control data <a href="https://ute.github.io/statmod/assets/data/guns.RData">here</a> or on the <a href="https://drive.google.com/drive/folders/19d8DwZCQ2WfhG1BzAXReNuYQFbBzTVtg?usp=sharing" target="_blank"><code>data</code> folder on Google Drive</a>, see more in the hint below. These data are taken from the cross-sectional study by Kalesan et al (2016) (reference [47] in R&amp;G).</p>
 <p>For state <span class="math inline">\(i\)</span>, let <span class="math inline">\(Y_i\)</span> be the number of homicides and <span class="math inline">\(N_i\)</span> be the population.</p>
 <ol type="a">
 <li><p>Fit the model <span class="math inline">\(Y_i\mid \beta\sim\mathrm{Poisson}(N_i\lambda_i)\)</span> where <span class="math inline">\(\log(\lambda_i)=\boldsymbol{X}_i\boldsymbol{\beta}\)</span>. Use uninformative priors and <span class="math inline">\(p=7\)</span> covariates in <span class="math inline">\(\boldsymbol{X}_i\)</span>: the intecept, the five confounders <span class="math inline">\(\boldsymbol{Z}_i\)</span>, and the total number of gun laws in state <span class="math inline">\(i\)</span>. Provide justification that the MCMC sampler has converged and sufficiently explored the posterior distribution, and summarize the posterior of <span class="math inline">\(\beta\)</span>. Also discuss why the five variables to be included in the analysis are potential confounders.</p></li>
